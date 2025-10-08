@@ -1,6 +1,8 @@
+import type { TypographyOptions } from "@mui/material/styles/createTypography";
+
 // ==============================|| DEFAULT THEME - TYPOGRAPHY  ||============================== //
 
-const Typography = (fontFamily: any) => ({
+const Typography = (fontFamily: string): TypographyOptions => ({
   htmlFontSize: 16,
   fontFamily,
   fontWeightLight: 300,
@@ -37,34 +39,42 @@ const Typography = (fontFamily: any) => ({
     fontSize: "0.875rem",
     lineHeight: 1.57,
   },
+  subtitle1: {
+    fontWeight: 600,
+    fontSize: "0.875rem",
+    lineHeight: 1.57,
+  },
+  subtitle2: {
+    fontWeight: 500,
+    fontSize: "0.75rem",
+    lineHeight: 1.66,
+  },
+  body1: {
+    fontWeight: 400,
+    fontSize: "0.875rem",
+    lineHeight: 1.57,
+  },
+  body2: {
+    fontWeight: 400,
+    fontSize: "0.75rem",
+    lineHeight: 1.66,
+  },
+  button: {
+    fontWeight: 500,
+    fontSize: "0.875rem",
+    lineHeight: 1.75,
+    textTransform: "capitalize",
+  },
   caption: {
     fontWeight: 400,
     fontSize: "0.75rem",
     lineHeight: 1.66,
   },
-  body1: {
-    fontSize: "0.875rem",
-    lineHeight: 1.57,
-  },
-  body2: {
-    fontSize: "0.75rem",
-    lineHeight: 1.66,
-  },
-  subtitle1: {
-    fontSize: "0.875rem",
-    fontWeight: 600,
-    lineHeight: 1.57,
-  },
-  subtitle2: {
-    fontSize: "0.75rem",
-    fontWeight: 500,
-    lineHeight: 1.66,
-  },
   overline: {
+    fontWeight: 400,
+    fontSize: "0.75rem",
     lineHeight: 1.66,
-  },
-  button: {
-    textTransform: "capitalize",
+    textTransform: "uppercase",
   },
 });
 

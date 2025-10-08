@@ -59,7 +59,7 @@ const MainCard = forwardRef(
           borderColor:
             theme.palette.mode === ThemeMode.DARK
               ? theme.palette.divider
-              : theme.palette.grey.A800,
+              : theme.palette.grey[200],
           boxShadow:
             boxShadow && (!border || theme.palette.mode === ThemeMode.DARK)
               ? shadow || theme.customShadows.z1

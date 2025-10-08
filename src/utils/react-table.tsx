@@ -66,17 +66,14 @@ export function DateColumnFilter({ column: { filterValue, setFilter } }: any) {
     <FormControl sx={{ width: "100%" }}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
-          format="dd/MM/yyyy"
-          value={filterValue && new Date(filterValue)}
-          onChange={(newValue) => {
-            let formatDateFn = undefined;
-            try {
-              formatDateFn = format(newValue, "M/d/yyyy");
-            } catch (error) {
-              console.log(error);
+          value={filterValue ? new Date(filterValue) : null}
+          onChange={(newValue: Date | null) => {
+            if (newValue) {
+              const formatted = format(newValue, "M/d/yyyy");
+              setFilter(formatted);
+            } else {
+              setFilter(undefined);
             }
-            console.log(formatDateFn);
-            setFilter(undefined);
           }}
         />
       </LocalizationProvider>
@@ -111,12 +108,12 @@ DefaultColumnFilter.propTypes = {
 export function SelectColumnFilter({
   column: { filterValue, setFilter, preFilteredRows, id },
 }: any) {
-  const options = useMemo(() => {
-    const options = new Set();
+  const options = useMemo<string[]>(() => {
+    const opts = new Set<string>();
     preFilteredRows.forEach((row: any) => {
-      options.add(row.values[id]);
+      opts.add(row.values[id]);
     });
-    return [...options.values()];
+    return Array.from(opts);
   }, [id, preFilteredRows]);
 
   return (
@@ -167,7 +164,7 @@ export function SliderColumnFilter({
         min={min}
         max={max}
         step={1}
-        onChange={(event, newValue) => {
+        onChange={(newValue) => {
           setFilter(newValue);
         }}
         valueLabelDisplay="auto"

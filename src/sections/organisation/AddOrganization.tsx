@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useEffect, useState } from "react";
 import {
-  contactcode,
+  // contactcode,
   countries,
   timezones,
   currencies,
@@ -17,20 +17,20 @@ import {
   Button,
   DialogActions,
   DialogContent,
-  DialogTitle,
+  // DialogTitle,
   Divider,
   FormControl,
-  FormControlLabel,
+  // FormControlLabel,
   FormLabel,
   Grid,
-  FormHelperText,
+  // FormHelperText,
   InputLabel,
   ListItemText,
   MenuItem,
   OutlinedInput,
   Select,
   Stack,
-  Switch,
+  // Switch,
   TextField,
   Tooltip,
   Typography,
@@ -69,7 +69,7 @@ for (const path in avatarImages) {
 }
 
 // Example usage
-const avatarImage = avatarMap["avatar-1.png"];
+// const avatarImage = avatarMap["avatar-1.png"];
 // constant
 const getInitialValues = (customer: any) => ({
   companyName: customer?.companyName || "",
@@ -98,7 +98,9 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
   const isCreating = !customer?.id;
   const newId = isCreating ? uuidv4() : customer.id;
 
-  const [selectedImage, setSelectedImage] = useState(undefined);
+  const [selectedImage, setSelectedImage] = useState<File | undefined>(
+    undefined
+  );
   const defaultAvatar = `avatar-${isCreating || !customer?.avatar ? 1 : customer.avatar}.png`;
   const [avatar, setAvatar] = useState(avatarMap[defaultAvatar]);
 
@@ -394,7 +396,10 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
                       type="file"
                       id="change-avatar"
                       sx={{ display: "none" }}
-                      onChange={(e) => setSelectedImage(e.target.files?.[0])}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setSelectedImage(e.target.files?.[0])
+                      }
+                      // onChange={(e) => setSelectedImage(e.target.files?.[0])}
                     />
                   </Stack>
                 </Grid>
@@ -414,7 +419,12 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
                           error={Boolean(
                             touched.companyName && errors.companyName
                           )}
-                          helperText={touched.companyName && errors.companyName}
+                          helperText={
+                            touched.companyName &&
+                            typeof errors.companyName === "string"
+                              ? errors.companyName
+                              : undefined
+                          }
                         />
                       </Stack>
                       <Stack spacing={1.25} sx={{ mt: 2 }}>
@@ -431,7 +441,12 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
                           error={Boolean(
                             touched.description && errors.description
                           )}
-                          helperText={touched.description && errors.description}
+                          helperText={
+                            touched.description &&
+                            typeof errors.description === "string"
+                              ? errors.description
+                              : undefined
+                          }
                         />
                       </Stack>
                       <Stack spacing={1.25} sx={{ mt: 2 }}>
@@ -442,7 +457,12 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
                           placeholder="Enter Address 1"
                           {...getFieldProps("address1")}
                           error={Boolean(touched.address1 && errors.address1)}
-                          helperText={touched.address1 && errors.address1}
+                          helperText={
+                            touched.address1 &&
+                            typeof errors.address1 === "string"
+                              ? errors.address1
+                              : undefined
+                          }
                         />
                       </Stack>
                       <Stack spacing={1.25} sx={{ mt: 2 }}>
@@ -453,7 +473,12 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
                           placeholder="Enter Address 2"
                           {...getFieldProps("address2")}
                           error={Boolean(touched.address2 && errors.address2)}
-                          helperText={touched.address2 && errors.address2}
+                          helperText={
+                            touched.address2 &&
+                            typeof errors.address2 === "string"
+                              ? errors.address2
+                              : undefined
+                          }
                         />
                       </Stack>
                       <Grid container spacing={2} sx={{ mt: 2 }}>
@@ -465,7 +490,11 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
                             placeholder="Enter City"
                             {...getFieldProps("city")}
                             error={Boolean(touched.city && errors.city)}
-                            helperText={touched.city && errors.city}
+                            helperText={
+                              touched.city && typeof errors.city === "string"
+                                ? errors.city
+                                : undefined
+                            }
                           />
                         </Grid>
                         <Grid item xs={6}>
@@ -476,7 +505,11 @@ const AddOrganisation = ({ customer, onCancel, onSave }: any) => {
                             placeholder="Enter Postal Code"
                             {...getFieldProps("zip")}
                             error={Boolean(touched.zip && errors.zip)}
-                            helperText={touched.zip && errors.zip}
+                            helperText={
+                              touched.zip && typeof errors.zip === "string"
+                                ? errors.zip
+                                : undefined
+                            }
                           />
                         </Grid>
                       </Grid>

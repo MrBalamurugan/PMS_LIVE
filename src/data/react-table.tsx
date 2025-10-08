@@ -72,7 +72,7 @@ const newPerson = (index: any) => {
 export default function makeData(...lens: number[]): any[] {
   const makeDataLevel = (depth = 0): any[] => {
     const len = lens[depth];
-    return range(len).map((d: any, index: any) => ({
+    return range(len).map((index: any) => ({
       ...newPerson(index + 1),
       subRows: lens[depth + 1] ? makeDataLevel(depth + 1) : undefined,
     }));

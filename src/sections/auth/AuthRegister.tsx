@@ -36,13 +36,17 @@ import {
 } from "../../utils/password-strength";
 
 // ============================|| JWT - REGISTER ||============================ //
+type PasswordLevel = {
+  label: string;
+  color: string;
+};
 
 const AuthRegister = () => {
   const { register } = useAuth();
   const scriptedRef = useScriptRef();
   const navigate = useNavigate();
 
-  const [level, setLevel] = useState();
+  const [level, setLevel] = useState<PasswordLevel | undefined>(undefined);
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -108,7 +112,7 @@ const AuthRegister = () => {
                 navigate("/login", { replace: true });
               }, 1500);
             }
-          } catch (err) {
+          } catch (err: any) {
             console.error(err);
             if (scriptedRef.current) {
               setStatus({ success: false });

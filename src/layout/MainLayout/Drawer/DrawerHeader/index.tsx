@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import { useMediaQuery } from "@mui/material";
+// import { styled } from "@mui/material/styles";
 
 // project import
 import DrawerHeaderStyled from "./DrawerHeaderStyled";
@@ -23,7 +24,7 @@ const DrawerHeader = ({ open }: any) => {
   return (
     <DrawerHeaderStyled
       theme={theme}
-      open={open}
+      // open={open}
       sx={{
         minHeight: isHorizontal ? "unset" : "60px",
         width: isHorizontal ? { xs: "100%", lg: "424px" } : "inherit",

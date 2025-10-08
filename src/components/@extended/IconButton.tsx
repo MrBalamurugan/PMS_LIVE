@@ -9,6 +9,67 @@ import getColors from "../../utils/getColors";
 import getShadow from "../../utils/getShadow";
 import type { Theme } from "@mui/material/styles";
 
+import "@mui/material/styles";
+
+import "@mui/material/styles";
+
+declare module "@mui/material/styles" {
+  interface CustomShadows {
+    primary: string;
+    secondary: string;
+    error: string;
+    warning: string;
+    info: string;
+    success: string;
+    primaryButton: string;
+    secondaryButton: string;
+    errorButton: string;
+    warningButton: string;
+    infoButton: string;
+    successButton: string;
+    z1: string;
+    z8: string;
+    z12: string;
+    z16: string;
+    z20: string;
+    z24: string;
+  }
+
+  interface Theme {
+    customShadows: CustomShadows;
+  }
+
+  interface ThemeOptions {
+    customShadows?: Partial<CustomShadows>;
+  }
+}
+
+declare module "@mui/material/styles" {
+  interface PaletteColor {
+    lighter?: string;
+    darker?: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    lighter?: string;
+    darker?: string;
+  }
+}
+
+type ShadowType =
+  | "primary"
+  | "secondary"
+  | "error"
+  | "warning"
+  | "info"
+  | "success"
+  | "primaryButton"
+  | "secondaryButton"
+  | "errorButton"
+  | "warningButton"
+  | "infoButton"
+  | "successButton";
+
 type VariantType =
   | "contained"
   | "light"
@@ -32,7 +93,7 @@ function getColorStyle({ variant, theme, color }: IconButtonProps) {
   const colors = getColors(theme, color);
   const { lighter, light, dark, main, contrastText } = colors;
 
-  const buttonShadow = `${color}Button`;
+  const buttonShadow = `${color}Button` as ShadowType;
   const shadows = getShadow(theme, buttonShadow);
 
   const commonShadow = {

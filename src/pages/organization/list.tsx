@@ -7,7 +7,7 @@ import { alpha, useTheme } from "@mui/material/styles";
 import {
   Button,
   Chip,
-  Dialog,
+  // Dialog,
   Drawer,
   Stack,
   Table,
@@ -21,7 +21,7 @@ import {
 } from "@mui/material";
 
 // third-party
-import { PatternFormat } from "react-number-format";
+// import { PatternFormat } from "react-number-format";
 import {
   useFilters,
   useExpanded,
@@ -58,6 +58,7 @@ import AlertOrganisationDelete from "../../sections/organisation/AlertOrganizati
 import { GlobalFilter, renderFilterTypes } from "../../utils/react-table";
 import OrganizationView from "../../sections/organisation/OrganizationView";
 import AddUser from "../../sections/user/AddUser";
+import Loader from "../../components/Loader";
 
 const avatarImages = import.meta.glob(
   "../../assets/images/users/*.{png,jpg,jpeg,svg}",
@@ -74,7 +75,7 @@ for (const path in avatarImages) {
 }
 
 // Example usage
-const avatarImage = avatarMap["avatar-1.png"];
+// const avatarImage = avatarMap["avatar-1.png"];
 // ==============================|| REACT TABLE ||============================== //
 
 function ReactTable({
@@ -87,7 +88,7 @@ function ReactTable({
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const filterTypes = useMemo(() => renderFilterTypes, []);
+  const filterTypes = useMemo(() => renderFilterTypes as any, []);
   const sortBy = { id: "name", desc: false };
 
   const {
@@ -118,7 +119,7 @@ function ReactTable({
         hiddenColumns: ["avatar", "email"],
         sortBy: [sortBy],
       },
-    },
+    } as any,
     useGlobalFilter,
     useFilters,
     useSortBy,
@@ -158,7 +159,7 @@ function ReactTable({
             preGlobalFilteredRows={preGlobalFilteredRows}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
-            size="small"
+            // size="small"
           />
           <Stack
             direction={matchDownSM ? "column" : "row"}
@@ -333,21 +334,23 @@ const StatusCell = ({ value }: any) => {
   switch (value) {
     case "Active":
       return (
-        <Chip color="success" label="Active" size="small" variant="light" />
+        <Chip color="success" label="Active" size="small" variant="outlined" />
       );
     case "Inactive":
       return (
-        <Chip color="error" label="Inactive" size="small" variant="light" />
+        <Chip color="error" label="Inactive" size="small" variant="outlined" />
       );
     case "Pending":
-      return <Chip color="info" label="Pending" size="small" variant="light" />;
+      return (
+        <Chip color="info" label="Pending" size="small" variant="outlined" />
+      );
     default:
       return (
         <Chip
           color="default"
           label={value || "Unknown"}
           size="small"
-          variant="light"
+          variant="outlined"
         />
       );
   }
@@ -389,7 +392,7 @@ const ActionCell = (
           color="primary"
           onClick={(e: any) => {
             e.stopPropagation();
-            setCustomer(row.values);
+            setCustomer(row.original);
             handleAdd();
           }}
         >
@@ -437,6 +440,8 @@ SelectionHeader.propTypes = {
 const CustomerListPage = () => {
   const theme = useTheme();
   const location = useLocation();
+  const [loading, setLoading] = useState(false);
+
   const { customer: org } = location.state || {}; // fallback to empty object if not passed
 
   const [data, setData] = useState<any[]>([]);
@@ -444,33 +449,56 @@ const CustomerListPage = () => {
   const [organizations, setOrganizations] = useState<any[]>([]); // Organizations
   console.log("organizationsname", organizations);
   useEffect(() => {
-    fetch("https://pms-db-mock.onrender.com/Organizations")
-      .then((res) => res.json())
-      .then((orgs) => setOrganizations(orgs))
-      .catch((err) => console.error("Failed to fetch organizations:", err));
+    const fetchOrganizations = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch(
+          "https://pms-db-mock.onrender.com/Organizations"
+        );
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const orgs = await res.json();
+        setOrganizations(orgs);
+      } catch (err) {
+        console.error("Failed to fetch organizations:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrganizations();
   }, []);
 
   useEffect(() => {
-    fetch("https://pms-db-mock.onrender.com/Users")
-      .then((res) => res.json())
-      .then((users) => {
-        // Filter users whose id matches org.id
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("https://pms-db-mock.onrender.com/Users");
+        if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+        const users = await res.json();
         const filtered = org?.id
           ? users.filter((user: any) => user.orgId === org.id)
           : users;
         setData(filtered);
-      })
-      .catch((err) => console.error("Failed to fetch users:", err));
+      } catch (err) {
+        console.error("Failed to fetch users:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, [org]);
+
   // const data = useMemo(() => makeData(3), []);
   const [add, setAdd] = useState(false);
   const [open, setOpen] = useState(false);
-  const [customer, setCustomer] = useState();
+  const [customer, setCustomer] = useState<any | null>(null);
   const [customerDeleteId, setCustomerDeleteId] = useState();
 
-  const handleAdd = () => {
-    setAdd(!add);
-    if (customer && !add) setCustomer(null);
+  const handleAdd = (user = null) => {
+    if (user) setCustomer(user);
+    setAdd((prev) => !prev);
+    if (add) setCustomer(null);
   };
 
   const handleClose = () => {
@@ -551,47 +579,50 @@ const CustomerListPage = () => {
   );
 
   return (
-    <MainCard content={false}>
-      <ScrollX>
-        <ReactTable
-          columns={columns}
-          data={data}
-          handleAdd={handleAdd}
-          getHeaderProps={(column) => column.getSortByToggleProps()}
-          renderRowSubComponent={renderRowSubComponent}
+    <>
+      {loading && <Loader />}
+      <MainCard content={false}>
+        <ScrollX>
+          <ReactTable
+            columns={columns}
+            data={data}
+            handleAdd={handleAdd}
+            getHeaderProps={(column) => column.getSortByToggleProps()}
+            renderRowSubComponent={renderRowSubComponent}
+          />
+        </ScrollX>
+        <AlertOrganisationDelete
+          title={customerDeleteId}
+          open={open}
+          handleClose={handleClose}
         />
-      </ScrollX>
-      <AlertOrganisationDelete
-        title={customerDeleteId}
-        open={open}
-        handleClose={handleClose}
-      />
-      {/* add user dialog */}
-      <Drawer
-        anchor="right"
-        open={add}
-        onClose={handleAdd}
-        sx={{
-          "& .MuiDrawer-paper": {
-            width: 400, // adjust width
-            p: 0,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        <AddUser
-          user={{ ...(customer || {}), orgId: org?.id }}
-          onCancel={handleAdd}
-          onSave={(savedUser, isCreating) => {
-            if (isCreating) setData((prev) => [...prev, savedUser]);
-            else
-              setData((prev) =>
-                prev.map((u) => (u.id === savedUser.id ? savedUser : u))
-              );
+        {/* add user dialog */}
+        <Drawer
+          anchor="right"
+          open={add}
+          onClose={() => handleAdd()}
+          sx={{
+            "& .MuiDrawer-paper": {
+              width: 400, // adjust width
+              p: 0,
+              boxSizing: "border-box",
+            },
           }}
-        />
-      </Drawer>
-    </MainCard>
+        >
+          <AddUser
+            user={{ ...(customer || {}), orgId: org?.id }}
+            onCancel={handleAdd}
+            onSave={(savedUser, isCreating) => {
+              if (isCreating) setData((prev) => [...prev, savedUser]);
+              else
+                setData((prev) =>
+                  prev.map((u) => (u.id === savedUser.id ? savedUser : u))
+                );
+            }}
+          />
+        </Drawer>
+      </MainCard>
+    </>
   );
 };
 

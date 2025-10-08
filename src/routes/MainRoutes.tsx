@@ -5,11 +5,11 @@ import MainLayout from "../layout/MainLayout";
 import CommonLayout from "../layout/CommonLayout";
 import Loadable from "../components/Loadable";
 import AuthGuard from "../utils/route-guard/AuthGuard";
-import Userpage from "../pages/user/userpage";
+// import Userpage from "../pages/user/userpage";
 import Projectpage from "../pages/project/Projectpage";
 import CustomerListPage from "../pages/organization/list";
 import TabRole from "../sections/role/userrole";
-import Teampage from "../sections/team/Teampage";
+// import Teampage from "../sections/team/Teampage";
 import TeamListPage from "../pages/organization/teamlist";
 import Project from "../pages/extra-pages/project";
 

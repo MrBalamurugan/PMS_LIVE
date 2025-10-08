@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 // material-ui
@@ -52,8 +52,8 @@ const PopperStyled = styled(Popper)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     transform: "translateY(-50%) rotate(45deg)",
     zIndex: 120,
-    borderLeft: `1px solid ${theme.palette.grey.A800}`,
-    borderBottom: `1px solid ${theme.palette.grey.A800}`,
+    borderLeft: `1px solid ${theme.palette.grey[800]}`,
+    borderBottom: `1px solid ${theme.palette.grey[800]}`,
   },
 }));
 

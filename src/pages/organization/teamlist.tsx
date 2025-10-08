@@ -7,7 +7,7 @@ import { alpha, useTheme } from "@mui/material/styles";
 import {
   Button,
   Chip,
-  Dialog,
+  // Dialog,
   Drawer,
   Stack,
   Table,
@@ -50,17 +50,18 @@ import {
   EditTwoTone,
   DeleteTwoTone,
 } from "@ant-design/icons";
-import { PopupTransition } from "../../components/@extended/Transitions";
+// import { PopupTransition } from "../../components/@extended/Transitions";
 import IconButton from "../../components/@extended/IconButton";
 import Avatar from "../../components/@extended/Avatar";
 import MainCard from "../../components/MainCard";
 import ScrollX from "../../components/ScrollX";
 import AlertOrganisationDelete from "../../sections/organisation/AlertOrganizationDelete";
 import { GlobalFilter, renderFilterTypes } from "../../utils/react-table";
-import OrganizationView from "../../sections/organisation/OrganizationView";
-import AddUser from "../../sections/user/AddUser";
+// import OrganizationView from "../../sections/organisation/OrganizationView";
+// import AddUser from "../../sections/user/AddUser";
 import AddTeam from "../../sections/team/Teampage";
 import TeamGridView from "../../sections/team/TeamGridView";
+import Loader from "../../components/Loader";
 
 const avatarImages = import.meta.glob(
   "../../assets/images/users/*.{png,jpg,jpeg,svg}",
@@ -77,14 +78,14 @@ for (const path in avatarImages) {
 }
 
 // Example usage
-const avatarImage = avatarMap["avatar-1.png"];
+// const avatarImage = avatarMap["avatar-1.png"];
 // ==============================|| REACT TABLE ||============================== //
 
 function ReactTable({
   columns,
   data,
   getHeaderProps,
-  renderRowSubComponent,
+  // renderRowSubComponent,
   handleAdd,
 }: any) {
   const theme = useTheme();
@@ -105,7 +106,7 @@ function ReactTable({
     page,
     gotoPage,
     setPageSize,
-    state: { globalFilter, selectedRowIds, pageIndex, pageSize, expanded },
+    state: { globalFilter, selectedRowIds, pageIndex, pageSize },
     preGlobalFilteredRows,
     setGlobalFilter,
     setSortBy,
@@ -121,7 +122,7 @@ function ReactTable({
         hiddenColumns: ["avatar", "email"],
         sortBy: [sortBy],
       },
-    },
+    } as any,
     useGlobalFilter,
     useFilters,
     useSortBy,
@@ -161,7 +162,7 @@ function ReactTable({
             preGlobalFilteredRows={preGlobalFilteredRows}
             globalFilter={globalFilter}
             setGlobalFilter={setGlobalFilter}
-            size="small"
+            // size="small"
           />
           <Stack
             direction={matchDownSM ? "column" : "row"}
@@ -217,7 +218,7 @@ function ReactTable({
           <TableBody {...getTableBodyProps()}>
             {page.map((row: any, i: any) => {
               prepareRow(row);
-              const rowProps = row.getRowProps();
+              // const rowProps = row.getRowProps();
 
               return (
                 <Fragment key={i}>
@@ -322,15 +323,22 @@ const StatusCell = ({ value }: any) => {
   switch (value) {
     case "Complicated":
       return (
-        <Chip color="error" label="Rejected" size="small" variant="light" />
+        <Chip color="error" label="Rejected" size="small" variant="outlined" />
       );
     case "Relationship":
       return (
-        <Chip color="success" label="Verified" size="small" variant="light" />
+        <Chip
+          color="success"
+          label="Verified"
+          size="small"
+          variant="outlined"
+        />
       );
     case "Single":
     default:
-      return <Chip color="info" label="Pending" size="small" variant="light" />;
+      return (
+        <Chip color="info" label="Pending" size="small" variant="outlined" />
+      );
   }
 };
 
@@ -370,7 +378,7 @@ const ActionCell = (
           color="primary"
           onClick={(e: any) => {
             e.stopPropagation();
-            setCustomer(row.values);
+            setCustomer(row.original);
             handleAdd();
           }}
         >
@@ -417,6 +425,7 @@ const TeamListPage = () => {
   const theme = useTheme();
   const location = useLocation();
   const { customer: org } = location.state || {}; // fallback to empty object if not passed
+  const [loading, setLoading] = useState(false);
 
   console.log("Customer org:", org?.id);
 
@@ -425,30 +434,49 @@ const TeamListPage = () => {
   const [allUsers, setAllUsers] = useState<any[]>([]);
   console.log("allUsers", allUsers);
   const [data, setData] = useState<any[]>([]);
-
   useEffect(() => {
-    fetch("https://pms-db-mock.onrender.com/Users")
-      .then((res) => res.json())
-      .then((allUsers) => {
+    const fetchUsers = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("https://pms-db-mock.onrender.com/Users");
+        const allUsers = await res.json();
+
         const filteredUsers = org?.id
           ? allUsers.filter((u: any) => u.orgId === org.id)
           : allUsers;
+
         setUsers(filteredUsers);
         setAllUsers(allUsers);
-      })
-      .catch((err) => console.error("Failed to fetch users:", err));
+      } catch (err) {
+        console.error("Failed to fetch users:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
   }, [org]);
 
   useEffect(() => {
-    fetch("https://pms-db-mock.onrender.com/Teams")
-      .then((res) => res.json())
-      .then((allTeams) => {
+    const fetchTeams = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch("https://pms-db-mock.onrender.com/Teams");
+        const allTeams = await res.json();
+
         const filteredTeams = org?.id
           ? allTeams.filter((t: any) => t.orgId === org.id)
           : allTeams;
+
         setTeams(filteredTeams);
-      })
-      .catch((err) => console.error("Failed to fetch teams:", err));
+      } catch (err) {
+        console.error("Failed to fetch teams:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeams();
   }, [org]);
 
   // 🔑 Combine teams + users into table data
@@ -471,7 +499,7 @@ const TeamListPage = () => {
   // const data = useMemo(() => makeData(3), []);
   const [add, setAdd] = useState(false);
   const [open, setOpen] = useState(false);
-  const [customer, setCustomer] = useState();
+  const [customer, setCustomer] = useState<any | null>(null);
   const [customerDeleteId, setCustomerDeleteId] = useState();
 
   const handleAdd = () => {
@@ -494,7 +522,7 @@ const TeamListPage = () => {
       },
       {
         Header: "#",
-        accessor: "id",
+        accessor: "order",
         className: "cell-center",
       },
       {
@@ -569,44 +597,47 @@ const TeamListPage = () => {
   );
 
   return (
-    <MainCard content={false}>
-      <ScrollX>
-        <ReactTable
-          columns={columns}
-          data={data}
-          handleAdd={handleAdd}
-          getHeaderProps={(column) => column.getSortByToggleProps()}
-          renderRowSubComponent={renderRowSubComponent}
+    <>
+      {loading && <Loader />}
+      <MainCard content={false}>
+        <ScrollX>
+          <ReactTable
+            columns={columns}
+            data={data}
+            handleAdd={handleAdd}
+            getHeaderProps={(column) => column.getSortByToggleProps()}
+            renderRowSubComponent={renderRowSubComponent}
+          />
+        </ScrollX>
+        <AlertOrganisationDelete
+          title={customerDeleteId}
+          open={open}
+          handleClose={handleClose}
         />
-      </ScrollX>
-      <AlertOrganisationDelete
-        title={customerDeleteId}
-        open={open}
-        handleClose={handleClose}
-      />
-      {/* add user dialog */}
-      <Drawer
-        anchor="right"
-        open={add}
-        onClose={handleAdd}
-        PaperProps={{
-          sx: { width: 500, p: 0, transition: "transform 225ms" }, // adjust width as needed
-        }}
-      >
-        <AddTeam
-          team={{ ...(customer || {}), orgId: org?.id }}
-          onCancel={handleAdd}
-          users={data}
-          onSave={(savedUser, isCreating) => {
-            if (isCreating) setData((prev) => [...prev, savedUser]);
-            else
-              setData((prev) =>
-                prev.map((u) => (u.id === savedUser.id ? savedUser : u))
-              );
+        {/* add user dialog */}
+        <Drawer
+          anchor="right"
+          open={add}
+          onClose={handleAdd}
+          PaperProps={{
+            sx: { width: 500, p: 0, transition: "transform 225ms" }, // adjust width as needed
           }}
-        />
-      </Drawer>
-    </MainCard>
+        >
+          <AddTeam
+            team={{ ...(customer || {}), orgId: org?.id }}
+            onCancel={handleAdd}
+            users={data}
+            onSave={(savedUser, isCreating) => {
+              if (isCreating) setData((prev) => [...prev, savedUser]);
+              else
+                setData((prev) =>
+                  prev.map((u) => (u.id === savedUser.id ? savedUser : u))
+                );
+            }}
+          />
+        </Drawer>
+      </MainCard>
+    </>
   );
 };
 

@@ -61,7 +61,10 @@ const verifyToken = (serviceToken: string) => {
   return decoded.exp > Date.now() / 1000;
 };
 
-const setSession = (accessToken?: string, refreshToken?: string) => {
+const setSession = (
+  accessToken: string | null | undefined,
+  refreshToken?: string
+) => {
   if (accessToken) {
     localStorage.setItem("access_token", accessToken);
     if (refreshToken) {

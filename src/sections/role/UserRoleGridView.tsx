@@ -1,4 +1,5 @@
-import { FC, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import type { FC } from "react";
 import {
   Table,
   TableBody,
@@ -75,8 +76,9 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
   const displayRoles = data?.roles || roles;
   const displayRights = data?.rights || rights;
   const displayEntities = data?.entities || entities;
-
+  console.log("datawww", data);
   const [activeRole, setActiveRole] = useState<string | null>(null);
+
   const [entityRights, setEntityRights] = useState<{
     [entity: string]: { [right: string]: boolean };
   }>({});
@@ -87,25 +89,37 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
 
   // Initialize entityRights
   useEffect(() => {
-    const initialState: any = {};
-    displayEntities.forEach((entity) => {
-      initialState[entity] = {};
-      displayRights.forEach((right) => {
-        initialState[entity][right] = false;
+    if (data && data.length > 0) {
+      const userRole = data[0].role; // "manager"
+      const matchedRole = roles.find(
+        (r) => r.toLowerCase() === userRole.toLowerCase()
+      );
+      setActiveRole(matchedRole || null);
+
+      // initialize entityRights
+      const initialRights: any = {};
+      entities.forEach((entity) => {
+        initialRights[entity] = {};
+        rights.forEach((right) => {
+          initialRights[entity][right] =
+            rolePermissions[matchedRole || ""]?.[entity]?.includes(right) ||
+            false;
+        });
       });
-    });
-    setEntityRights(initialState);
-    setSavedRights(initialState); // initialize saved state
-  }, [displayEntities, displayRights]);
+
+      setEntityRights(initialRights);
+      setSavedRights(initialRights);
+    }
+  }, [data]);
 
   const handleRoleChange = (role: string) => {
     if (activeRole === role) {
       // Uncheck active role → clear permissions
       setActiveRole(null);
       const clearedRights: any = {};
-      displayEntities.forEach((entity) => {
+      displayEntities.forEach((entity: any) => {
         clearedRights[entity] = {};
-        displayRights.forEach((right) => {
+        displayRights.forEach((right: any) => {
           clearedRights[entity][right] = false;
         });
       });
@@ -114,9 +128,9 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
       // Switch to a new role
       setActiveRole(role);
       const newRights: any = {};
-      displayEntities.forEach((entity) => {
+      displayEntities.forEach((entity: any) => {
         newRights[entity] = {};
-        displayRights.forEach((right) => {
+        displayRights.forEach((right: any) => {
           newRights[entity][right] =
             rolePermissions[role]?.[entity]?.includes(right) || false;
         });
@@ -141,7 +155,15 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
   };
 
   const handleReset = () => {
-    setEntityRights(savedRights);
+    const clearedRights: any = {};
+    displayEntities.forEach((entity: any) => {
+      clearedRights[entity] = {};
+      displayRights.forEach((right: any) => {
+        clearedRights[entity][right] = false;
+      });
+    });
+
+    setEntityRights(clearedRights);
     setActiveRole(null);
   };
 
@@ -166,7 +188,7 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
           }}
         >
           <Typography sx={{ fontWeight: "bold" }}>Roles:</Typography>
-          {displayRoles.map((role) => (
+          {displayRoles.map((role: any) => (
             <Box key={role} sx={{ display: "flex", alignItems: "center" }}>
               <Checkbox
                 size="small"
@@ -194,7 +216,7 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
               <TableCell sx={{ fontWeight: "bold" }}>Permission</TableCell>
-              {displayRights.map((right) => (
+              {displayRights.map((right: any) => (
                 <TableCell
                   key={right}
                   align="center"
@@ -207,10 +229,10 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
           </TableHead>
 
           <TableBody>
-            {displayEntities.map((entity) => (
+            {displayEntities.map((entity: any) => (
               <TableRow key={entity}>
                 <TableCell sx={{ fontWeight: "medium" }}>{entity}</TableCell>
-                {displayRights.map((right) => (
+                {displayRights.map((right: any) => (
                   <TableCell key={right} align="center">
                     <Checkbox
                       size="small"

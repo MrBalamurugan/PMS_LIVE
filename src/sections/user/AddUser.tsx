@@ -14,9 +14,9 @@ import {
   FormLabel,
   Grid,
   InputLabel,
-  ListItemText,
+  // ListItemText,
   MenuItem,
-  OutlinedInput,
+  // OutlinedInput,
   Select,
   Stack,
   TextField,
@@ -36,6 +36,7 @@ import Avatar from "../../components/@extended/Avatar";
 import IconButton from "../../components/@extended/IconButton";
 import { openSnackbar } from "../../store/reducers/snackbar";
 import { dispatch } from "../../store";
+// import { useOrganizations } from "../../feature/organization";
 
 // Avatar images
 const avatarImages = import.meta.glob(
@@ -63,7 +64,17 @@ const roles = ["admin", "user", "manager"];
 
 const AddUser = ({ user, onCancel, onSave }: any) => {
   const theme = useTheme();
+  console.log("user", user);
+  // const { data: organizations, isLoading, error } = useOrganizations();
+  //testredux
+  // useEffect(() => {
+  //   console.log("Organizations data:", organizations);
+  //   console.log("Loading state:", isLoading);
+  //   console.log("Error:", error);
+  // }, []);
+
   const isCreating = !user?.id;
+
   const newId = isCreating ? uuidv4() : user.id;
 
   const [selectedImage, setSelectedImage] = useState<File | undefined>();
@@ -260,7 +271,9 @@ const AddUser = ({ user, onCancel, onSave }: any) => {
                       type="file"
                       id="change-avatar"
                       sx={{ display: "none" }}
-                      onChange={(e) => setSelectedImage(e.target.files?.[0])}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setSelectedImage(e.target.files?.[0])
+                      }
                     />
                   </Box>
                 </Grid>
@@ -277,7 +290,11 @@ const AddUser = ({ user, onCancel, onSave }: any) => {
                     placeholder="Enter Name"
                     {...getFieldProps("name")}
                     error={Boolean(touched.name && errors.name)}
-                    helperText={touched.name && errors.name}
+                    helperText={
+                      touched.name && typeof errors.name === "string"
+                        ? errors.name
+                        : undefined
+                    }
                   />
                 </Stack>
               </Grid>
@@ -293,7 +310,11 @@ const AddUser = ({ user, onCancel, onSave }: any) => {
                     placeholder="Enter Email"
                     {...getFieldProps("email")}
                     error={Boolean(touched.email && errors.email)}
-                    helperText={touched.email && errors.email}
+                    helperText={
+                      touched.email && typeof errors.email === "string"
+                        ? errors.email
+                        : undefined
+                    }
                   />
                 </Stack>
               </Grid>
@@ -309,7 +330,11 @@ const AddUser = ({ user, onCancel, onSave }: any) => {
                     placeholder="Enter Contact No"
                     {...getFieldProps("contactNo")}
                     error={Boolean(touched.contactNo && errors.contactNo)}
-                    helperText={touched.contactNo && errors.contactNo}
+                    helperText={
+                      touched.contactNo && typeof errors.contactNo === "string"
+                        ? errors.contactNo
+                        : undefined
+                    }
                   />
                 </Stack>
               </Grid>
@@ -327,7 +352,11 @@ const AddUser = ({ user, onCancel, onSave }: any) => {
                     minRows={2}
                     {...getFieldProps("address")}
                     error={Boolean(touched.address && errors.address)}
-                    helperText={touched.address && errors.address}
+                    helperText={
+                      touched.address && typeof errors.address === "string"
+                        ? errors.address
+                        : undefined
+                    }
                   />
                 </Stack>
               </Grid>

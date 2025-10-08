@@ -1,6 +1,8 @@
-import { useMemo, useState, useEffect } from "react";
-import { Drawer, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { useState, useEffect } from "react";
+import { Drawer } from "@mui/material";
+// import CloseIcon from "@mui/icons-material/Close";
+import Loader from "../../components/Loader";
+
 // material-ui
 import {
   Grid,
@@ -11,7 +13,7 @@ import {
   Select,
   MenuItem,
   Box,
-  Dialog,
+  // Dialog,
   Slide,
   Pagination,
   Typography,
@@ -23,11 +25,11 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import usePagination from "../../hooks/usePagination";
 import { GlobalFilter } from "../../utils/react-table";
-import makeData from "../../data/react-table";
+// import makeData from "../../data/react-table";
 import AddOrganisation from "../../sections/organisation/AddOrganization";
 import OrganisationCard from "../../sections/organisation/OrganizationCard";
 import EmptyUserCard from "../../components/cards/skeleton/EmptyUserCard";
-import { PopupTransition } from "../../components/@extended/Transitions";
+// import { PopupTransition } from "../../components/@extended/Transitions";
 import axios from "axios";
 
 // ==============================|| CUSTOMER - CARD ||============================== //
@@ -65,11 +67,13 @@ const allColumns = [
 
 const Organisation = () => {
   const [allOrganizations, setAllOrganizations] = useState<any[]>([]);
+  const [userCard, setUserCard] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+
   const [sortBy, setSortBy] = useState("Default");
   const [globalFilter, setGlobalFilter] = useState("");
   const [add, setAdd] = useState(false);
   const [customer, setCustomer] = useState(null);
-  const [userCard, setUserCard] = useState([]);
   const [page, setPage] = useState(1);
   const handleChange = (event: any) => {
     setSortBy(event.target.value);
@@ -89,6 +93,8 @@ const Organisation = () => {
 
   const fetchOrganizations = async () => {
     try {
+      setLoading(true);
+
       const res = await axios.get(API_URL);
       const customers = res.data.map((org: any) => ({
         id: org.id,
@@ -122,6 +128,8 @@ const Organisation = () => {
       setUserCard(customers);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
   // search
@@ -150,21 +158,26 @@ const Organisation = () => {
   };
   const handleDelete = async (id: number) => {
     try {
+      setLoading(true);
+
       await axios.delete(`${API_URL}/${id}`);
       // Re-fetch the updated list after deletion
       fetchOrganizations();
     } catch (error) {
       console.error("Failed to delete organization", error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleChangePage = (e: any, p: any) => {
+  const handleChangePage = (p: any) => {
     setPage(p);
     _DATA.jump(p);
   };
 
   return (
     <>
+      {loading && <Loader />}
       <Box sx={{ position: "relative", marginBottom: 3 }}>
         <Stack direction="row" alignItems="center">
           <Stack
@@ -240,7 +253,7 @@ const Organisation = () => {
               if (sortBy === "Status") return a.status.localeCompare(b.status);
               return a;
             })
-            .map((user: any, index: any) => (
+            .map((index: any) => (
               <Slide key={index} direction="up" in={true} timeout={50}>
                 <Grid item xs={12} sm={6} lg={4}>
                   <OrganisationCard
@@ -251,7 +264,7 @@ const Organisation = () => {
               </Slide>
             ))
         ) : (
-          <EmptyUserCard title={"You have not created any customer yet."} />
+          <EmptyUserCard title={"You have not created any organization yet."} />
         )}
       </Grid>
       <Stack spacing={2} sx={{ p: 2.5 }} alignItems="flex-end">
@@ -261,7 +274,7 @@ const Organisation = () => {
           page={page}
           showFirstButton
           showLastButton
-          variant="combined"
+          variant="outlined"
           color="primary"
           onChange={handleChangePage}
         />

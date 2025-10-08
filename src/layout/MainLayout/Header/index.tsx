@@ -61,7 +61,12 @@ const Header = () => {
   );
 
   // app-bar params
-  const appBar = {
+  const appBar: {
+    position: "fixed";
+    color: "inherit";
+    elevation: number;
+    sx: any;
+  } = {
     position: "fixed",
     color: "inherit",
     elevation: 0,
@@ -73,7 +78,6 @@ const Header = () => {
         : drawerOpen
           ? "calc(100% - 260px)"
           : { xs: "100%", lg: "calc(100% - 60px)" },
-      // boxShadow: theme.customShadows.z1
     },
   };
 

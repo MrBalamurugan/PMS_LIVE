@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { CSVLink } from "react-csv";
 
 // material-ui
@@ -101,7 +101,7 @@ export const TablePagination = ({
     setOpen(true);
   };
 
-  const handleChangePagination = (event: any, value: any) => {
+  const handleChangePagination = (value: any) => {
     gotoPage(value - 1);
   };
 
@@ -164,7 +164,7 @@ export const TablePagination = ({
           page={pageIndex + 1}
           onChange={handleChangePagination}
           color="primary"
-          variant="combined"
+          // variant="combined"
           showFirstButton
           showLastButton
         />
@@ -205,7 +205,7 @@ export const TableRowSelection = ({ selected }: any) => (
         size="small"
         label={`${selected} row(s) selected`}
         color="secondary"
-        variant="light"
+        variant="filled"
         sx={{
           position: "absolute",
           right: -1,
@@ -284,8 +284,14 @@ DraggableHeader.propTypes = {
 };
 
 // ==============================|| DRAG & DROP - DRAG PREVIEW ||============================== //
+interface DragHeaderProps {
+  x: number;
+  y: number;
+}
 
-const DragHeader = styled("div")(({ theme, x, y }: any) => ({
+const DragHeader = styled("div", {
+  shouldForwardProp: (prop) => prop !== "x" && prop !== "y",
+})<DragHeaderProps>(({ theme, x, y }) => ({
   color: theme.palette.text.secondary,
   position: "fixed",
   pointerEvents: "none",
@@ -318,16 +324,18 @@ export const DragPreview = () => {
     </DragHeader>
   ) : null;
 };
-
+interface DragItem {
+  index: number;
+}
 // ==============================|| DRAG & DROP - DRAGGABLE ROW ||============================== //
 
 export const DraggableRow = ({ index, moveRow, children }: any) => {
   const DND_ITEM_TYPE = "row";
+  const dropRef = useRef<HTMLTableRowElement | null>(null);
 
-  const dropRef = useRef(null);
   const dragRef = useRef(null);
 
-  const [, drop] = useDrop({
+  const [, drop] = useDrop<DragItem>({
     accept: DND_ITEM_TYPE,
     hover(item, monitor) {
       if (!dropRef.current) {
@@ -342,7 +350,12 @@ export const DraggableRow = ({ index, moveRow, children }: any) => {
       const hoverBoundingRect = dropRef.current.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-      const clientOffset = monitor.getClientOffset();
+      const clientOffset = monitor.getClientOffset() as {
+        x: number;
+        y: number;
+      } | null;
+      if (!clientOffset) return;
+
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -612,7 +625,7 @@ CSVExport.propTypes = {
 };
 // ==============================|| EMPTY TABLE - NO DATA  ||============================== //
 
-const StyledGridOverlay = styled(Stack)(({ theme }) => ({
+const StyledGridOverlay = styled(Stack)(({ theme }: any) => ({
   height: "400px",
   "& .ant-empty-img-1": {
     fill:
@@ -644,7 +657,7 @@ const StyledGridOverlay = styled(Stack)(({ theme }) => ({
   },
 }));
 
-export const EmptyTable = ({ msg, colSpan }) => {
+export const EmptyTable = ({ msg, colSpan }: any) => {
   return (
     <TableRow>
       <TableCell colSpan={colSpan}>

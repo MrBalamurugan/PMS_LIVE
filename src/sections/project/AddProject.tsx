@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useEffect, useState } from "react";
+// import { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 // material-ui
@@ -34,7 +34,7 @@ import { DeleteFilled } from "@ant-design/icons";
 import { openSnackbar } from "../../store/reducers/snackbar";
 import { dispatch } from "../../store";
 import IconButton from "../../components/@extended/IconButton";
-import AlertOrganisationDelete from "../organisation/AlertOrganizationDelete";
+// import AlertOrganisationDelete from "../organisation/AlertOrganizationDelete";
 
 // ======================= STATIC DATA (inline) =======================
 const projectTypes = ["Residential", "Commercial", "Industrial", "Land"];
@@ -76,22 +76,22 @@ let organizations: any[] = [
 ];
 
 // Helper functions
-const addOrganization = (org: any) => {
-  const newOrg = { ...org, id: uuidv4() };
-  organizations.push(newOrg);
-  return newOrg;
-};
-const updateOrganization = (id: string, org: any) => {
-  const idx = organizations.findIndex((o) => o.id === id);
-  if (idx === -1) return null;
-  organizations[idx] = { ...organizations[idx], ...org };
-  return organizations[idx];
-};
+// const addOrganization = (org: any) => {
+//   const newOrg = { ...org, id: uuidv4() };
+//   organizations.push(newOrg);
+//   return newOrg;
+// };
+// const updateOrganization = (id: string, org: any) => {
+//   const idx = organizations.findIndex((o) => o.id === id);
+//   if (idx === -1) return null;
+//   organizations[idx] = { ...organizations[idx], ...org };
+//   return organizations[idx];
+// };
 const deleteOrganization = (id: string) => {
   organizations = organizations.filter((o) => o.id !== id);
 };
-const findByName = (name: string) =>
-  organizations.filter((o) => o.name.toLowerCase() === name.toLowerCase());
+// const findByName = (name: string) =>
+//   organizations.filter((o) => o.name.toLowerCase() === name.toLowerCase());
 
 // ================================================================
 
@@ -100,89 +100,82 @@ const getInitialValues = (project: any) => ({
   code: project?.code || "",
   type: project?.type || "",
   location: project?.location || "",
-  branch: project?.branch || "",
+  // branch: project?.branch || "",
   currency: project?.currency || "",
   taxRules: project?.taxRules || "",
   complianceDocuments: project?.complianceDocuments || [],
   status: project?.status || "Active",
 });
 
-const AddProject = ({ customer, onCancel, onSave }: any) => {
+const AddProject = ({ customer, onCancel, onSave, orgId }: any) => {
+  console.log("orgId", orgId);
   const theme = useTheme();
   const isCreating = !customer?.id;
   const newId = isCreating ? uuidv4() : customer.id;
+  console.log("customer", customer);
 
-  const [openAlert, setOpenAlert] = useState(false);
+  // const [openAlert, setOpenAlert] = useState(false);
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string().required("Project name is required"),
     code: Yup.string().required("Project code is required"),
     type: Yup.string().required("Project type is required"),
     location: Yup.string().required("Location is required"),
-    branch: Yup.string().required("Branch is required"),
+    // branch: Yup.string().required("Branch is required"),
     currency: Yup.string().required("Currency is required"),
     status: Yup.string()
       .oneOf(["Active", "Inactive", "Archived"])
       .required("Status is required"),
   });
-
   const formik = useFormik({
     initialValues: getInitialValues(customer),
     validationSchema: ProjectSchema,
     enableReinitialize: true,
     onSubmit: async (values, { setSubmitting }) => {
       try {
-        // Check duplicate
-        const existing = findByName(values.name);
-        if (isCreating && existing.length > 0) {
-          dispatch(
-            openSnackbar({
-              open: true,
-              message: "An organization with this name already exists.",
-              variant: "alert",
-              alert: { color: "error" },
-              close: false,
-            })
-          );
-          setSubmitting(false);
-          return;
-        }
+        const payload = {
+          id: newId,
+          OrgId: orgId.id,
+          OrgName: orgId.companyName,
+          ...values,
+        };
+        const url = isCreating
+          ? "https://pms-db-mock.onrender.com/Project"
+          : `https://pms-db-mock.onrender.com/Project/${customer.id}`;
+        const method = isCreating ? "POST" : "PUT";
 
-        let result;
-        if (isCreating) {
-          result = addOrganization(values);
-          dispatch(
-            openSnackbar({
-              open: true,
-              message: "Organization created successfully.",
-              variant: "alert",
-              alert: { color: "success" },
-              close: false,
-            })
-          );
-        } else {
-          result = updateOrganization(customer.id, values);
-          dispatch(
-            openSnackbar({
-              open: true,
-              message: "Organization updated successfully.",
-              variant: "alert",
-              alert: { color: "success" },
-              close: false,
-            })
-          );
-        }
+        const response = await fetch(url, {
+          method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) throw new Error("Error saving project");
+
+        const result = await response.json();
+
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: isCreating
+              ? "Project created successfully"
+              : "Project updated successfully",
+            variant: "alert",
+            alert: { color: "success" },
+            close: false,
+          })
+        );
 
         if (typeof onSave === "function") onSave(result, isCreating);
         onCancel();
-      } catch (error) {
+      } catch (error: any) {
         console.error(error);
         dispatch(
           openSnackbar({
             open: true,
             message: isCreating
-              ? "Error creating organization"
-              : "Error updating organization",
+              ? "Error creating project"
+              : "Error updating project",
             variant: "alert",
             alert: { color: "error" },
             close: false,
@@ -246,7 +239,11 @@ const AddProject = ({ customer, onCancel, onSave }: any) => {
                       placeholder="Enter Project Name"
                       {...getFieldProps("name")}
                       error={Boolean(touched.name && errors.name)}
-                      helperText={touched.name && errors.name}
+                      helperText={
+                        touched.name && typeof errors.name === "string"
+                          ? errors.name
+                          : undefined
+                      }
                     />
                   </Stack>
 
@@ -258,7 +255,11 @@ const AddProject = ({ customer, onCancel, onSave }: any) => {
                       placeholder="Enter Project Code"
                       {...getFieldProps("code")}
                       error={Boolean(touched.code && errors.code)}
-                      helperText={touched.code && errors.code}
+                      helperText={
+                        touched.code && typeof errors.code === "string"
+                          ? errors.code
+                          : undefined
+                      }
                     />
                   </Stack>
 
@@ -270,7 +271,11 @@ const AddProject = ({ customer, onCancel, onSave }: any) => {
                       placeholder="Enter Project Location"
                       {...getFieldProps("location")}
                       error={Boolean(touched.location && errors.location)}
-                      helperText={touched.location && errors.location}
+                      helperText={
+                        touched.location && typeof errors.location === "string"
+                          ? errors.location
+                          : undefined
+                      }
                     />
                   </Stack>
 
@@ -436,6 +441,7 @@ AddProject.propTypes = {
   customer: PropTypes.any,
   onCancel: PropTypes.func,
   onSave: PropTypes.func,
+  orgId: PropTypes.string,
 };
 
 export default AddProject;

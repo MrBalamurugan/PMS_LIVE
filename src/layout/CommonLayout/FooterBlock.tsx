@@ -26,10 +26,12 @@ import imgfootersoc1 from "assets/images/landing/img-soc1.svg";
 import imgfootersoc2 from "assets/images/landing/img-soc2.svg";
 import imgfootersoc3 from "assets/images/landing/img-soc3.svg";
 import { ThemeDirection, ThemeMode } from "../../config";
-import useConfig from "../../hooks/useConfig";
+// import useConfig from "../../hooks/useConfig";
 import AnimateButton from "../../components/@extended/AnimateButton";
 
-const dashImage = require.context("assets/images/landing", true);
+import dashImageLight from "../../assets/images/landing/img-footer.png";
+
+// const dashImage = require.context("../../assets/images/landing", true);
 
 // link - custom style
 const FooterLink = styled(Link)(({ theme }) => ({
@@ -46,7 +48,7 @@ const FooterLink = styled(Link)(({ theme }) => ({
 
 const FooterBlock = ({ isFull }: any) => {
   const theme = useTheme();
-  const { presetColor } = useConfig();
+  // const { presetColor } = useConfig();
   const textColor =
     theme.palette.mode === ThemeMode.DARK ? "text.primary" : "background.paper";
 
@@ -108,7 +110,7 @@ const FooterBlock = ({ isFull }: any) => {
         >
           <CardMedia
             component="img"
-            image={dashImage(`./img-footer-${presetColor}.png`)}
+            image={dashImageLight}
             sx={{
               display: { xs: "none", md: "block" },
               width: "55%",

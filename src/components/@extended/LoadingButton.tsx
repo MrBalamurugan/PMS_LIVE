@@ -8,14 +8,34 @@ import getColors from "../../utils/getColors";
 import getShadow from "../../utils/getShadow";
 
 // project imports
-
+type ShadowType =
+  | "primary"
+  | "secondary"
+  | "error"
+  | "warning"
+  | "info"
+  | "success"
+  | "primaryButton"
+  | "secondaryButton"
+  | "errorButton"
+  | "warningButton"
+  | "infoButton"
+  | "successButton";
 // ==============================|| LOADING BUTTON - COLOR STYLE ||============================== //
+import type { LoadingButtonProps as MuiLoadingButtonProps } from "@mui/lab/LoadingButton";
+
+type CustomShape = "square" | "rounded";
+
+export interface ExtendedLoadingButtonProps extends MuiLoadingButtonProps {
+  shape?: CustomShape;
+  variant?: "contained" | "light" | "shadow" | "outlined" | "dashed" | "text";
+}
 
 function getColorStyle({ variant, theme, color, loadingPosition }: any) {
   const colors = getColors(theme, color);
   const { lighter, main, dark, contrastText } = colors;
 
-  const buttonShadow = `${color}Button`;
+  const buttonShadow = `${color}Button` as ShadowType;
   const shadows = getShadow(theme, buttonShadow);
 
   const loadingIndicator = {
@@ -121,82 +141,102 @@ function getColorStyle({ variant, theme, color, loadingPosition }: any) {
 }
 
 // ==============================|| STYLED - LOADING BUTTON ||============================== //
+import "@mui/material/Button";
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    light: true;
+    shadow: true;
+    dashed: true;
+  }
+}
+import "@mui/lab/LoadingButton";
+
+declare module "@mui/lab/LoadingButton" {
+  interface LoadingButtonPropsVariantOverrides {
+    light: true;
+    shadow: true;
+    dashed: true;
+  }
+}
 
 const LoadingButtonStyle = styled(MuiLoadingButton, {
   shouldForwardProp: (prop) => prop !== "shape" && prop !== "variant",
-})(({ theme, variant, shape, color, loading, loadingPosition }) => ({
-  "::after": {
-    content: '""',
-    display: "block",
-    position: "absolute",
-    left: 0,
-    top: 0,
-    width: "100%",
-    height: "100%",
-    borderRadius: shape === "rounded" ? "50%" : 4,
-    opacity: 0,
-    transition: "all 0.5s",
-  },
+})<ExtendedLoadingButtonProps>(
+  ({ theme, variant, shape, color, loading, loadingPosition }) => ({
+    "::after": {
+      content: '""',
+      display: "block",
+      position: "absolute",
+      left: 0,
+      top: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: shape === "rounded" ? "50%" : 4,
+      opacity: 0,
+      transition: "all 0.5s",
+    },
 
-  ":active::after": {
-    position: "absolute",
-    borderRadius: shape === "rounded" ? "50%" : 4,
-    left: 0,
-    top: 0,
-    opacity: 1,
-    transition: "0s",
-  },
-  ...(variant === "text" && {
-    ...getColorStyle({ variant, theme, color, loadingPosition }),
-    "&.MuiButton-sizeMedium": {
-      height: 36,
+    ":active::after": {
+      position: "absolute",
+      borderRadius: shape === "rounded" ? "50%" : 4,
+      left: 0,
+      top: 0,
+      opacity: 1,
+      transition: "0s",
     },
-    "&.MuiButton-sizeSmall": {
-      height: 30,
-    },
-    "&.MuiButton-sizeLarge": {
-      height: 44,
-    },
-  }),
-  ...(shape && {
-    minWidth: 0,
-    "&.MuiButton-sizeMedium": {
-      width: 36,
-      height: 36,
-    },
-    "&.MuiButton-sizeSmall": {
-      width: 30,
-      height: 30,
-    },
-    "&.MuiButton-sizeLarge": {
-      width: 44,
-      height: 44,
-    },
-    ...(shape === "rounded" && {
-      borderRadius: "50%",
+    ...(variant === "text" && {
+      ...getColorStyle({ variant, theme, color, loadingPosition }),
+      "&.MuiButton-sizeMedium": {
+        height: 36,
+      },
+      "&.MuiButton-sizeSmall": {
+        height: 30,
+      },
+      "&.MuiButton-sizeLarge": {
+        height: 44,
+      },
     }),
-  }),
-
-  ...(variant === "outlined" && {
-    border: "1px solid",
-  }),
-  ...(variant === "dashed" && {
-    border: "1px dashed",
-  }),
-  ...((variant === "contained" || variant === "shadow") &&
-    !loading && {
-      color: "#fff",
+    ...(shape && {
+      minWidth: 0,
+      "&.MuiButton-sizeMedium": {
+        width: 36,
+        height: 36,
+      },
+      "&.MuiButton-sizeSmall": {
+        width: 30,
+        height: 30,
+      },
+      "&.MuiButton-sizeLarge": {
+        width: 44,
+        height: 44,
+      },
+      ...(shape === "rounded" && {
+        borderRadius: "50%",
+      }),
     }),
-  ...(variant !== "text" && {
-    ...getColorStyle({ variant, theme, color, loadingPosition }),
-  }),
 
-  "&.Mui-disabled": {
+    ...(variant === "outlined" && {
+      border: "1px solid",
+    }),
+    ...(variant === "dashed" && {
+      border: "1px dashed",
+    }),
+    ...((variant === "contained" || variant === "shadow") &&
+      !loading && {
+        color: "#fff",
+      }),
     ...(variant !== "text" && {
       ...getColorStyle({ variant, theme, color, loadingPosition }),
     }),
-  },
-}));
+
+    "&.Mui-disabled": {
+      ...(variant !== "text" && {
+        ...getColorStyle({ variant, theme, color, loadingPosition }),
+      }),
+    },
+  })
+);
 
 // ==============================|| EXTENDED - LOADING BUTTON ||============================== //
 

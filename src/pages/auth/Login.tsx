@@ -23,6 +23,7 @@ const Login = () => {
             <Typography variant="h3">Login</Typography>
             <Typography
               component={Link}
+              to="/register"
               variant="body1"
               sx={{ textDecoration: "none" }}
               color="primary"

@@ -58,7 +58,7 @@ const Notification = () => {
   const theme = useTheme();
   const matchesXs = useMediaQuery(theme.breakpoints.down("md"));
 
-  const anchorRef = useRef(null);
+  const anchorRef = useRef<HTMLElement | null>(null);
   const [read, setRead] = useState(2);
   const [open, setOpen] = useState(false);
   const handleToggle = () => {

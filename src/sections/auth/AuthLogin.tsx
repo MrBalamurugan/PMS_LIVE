@@ -45,9 +45,9 @@ const AuthLogin = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleMouseDownPassword = (event: any) => {
-    event.preventDefault();
-  };
+  // const handleMouseDownPassword = (event: any) => {
+  //   event.preventDefault();
+  // };
 
   return (
     <>

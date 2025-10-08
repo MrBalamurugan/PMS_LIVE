@@ -7,19 +7,19 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Badge } from "@mui/material";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import { useNavigate } from "react-router-dom";
+// import { useLocation, useNavigate } from "react-router-dom";
 import {
-  Box,
+  // Box,
   Button,
-  Chip,
-  Dialog,
+  // Chip,
+  // Dialog,
   Divider,
   Fade,
   Grid,
-  Link,
+  // Link,
   List,
   ListItem,
-  ListItemAvatar,
+  // ListItemAvatar,
   ListItemIcon,
   ListItemText,
   Menu,
@@ -31,16 +31,16 @@ import {
 // assets
 import {
   EnvironmentOutlined,
-  LinkOutlined,
-  MailOutlined,
+  // LinkOutlined,
+  // MailOutlined,
   MoreOutlined,
-  PhoneOutlined,
+  // PhoneOutlined,
 } from "@ant-design/icons";
-import Avatar from "../../components/@extended/Avatar";
+// import Avatar from "../../components/@extended/Avatar";
 import MainCard from "../../components/MainCard";
 import IconButton from "../../components/@extended/IconButton";
-import ListSmallCard from "./export-pdf/ListSmallCard";
-import OrganisationPreview from "../organisation/OrganizationPreview";
+// import ListSmallCard from "./export-pdf/ListSmallCard";
+// import OrganisationPreview from "../organisation/OrganizationPreview";
 import AddOrganisation from "../organisation/AddOrganization";
 import AlertOrganisationDelete from "../organisation/AlertOrganizationDelete";
 
@@ -59,23 +59,21 @@ for (const path in avatarImages) {
 }
 
 // Example usage
-const avatarImage = avatarMap["avatar-1.png"];
+// const avatarImage = avatarMap["avatar-1.png"];
 // constant
 // ==============================|| CUSTOMER - CARD ||============================== //
 
 const ProjectCard = ({ customer, onDelete }: any) => {
-  console.log("customer OrganisationCard", customer);
-  const navigate = useNavigate();
-
-  const [open, setOpen] = useState(false);
+  console.log("customer", customer);
+  // const [open, setOpen] = useState(false);
   const [add, setAdd] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const [openAlert, setOpenAlert] = useState(false);
 
@@ -270,7 +268,9 @@ const ProjectCard = ({ customer, onDelete }: any) => {
                     </ListItemIcon>
                     <ListItemText
                       primary={
-                        <Typography color="primary">KASADARA</Typography>
+                        <Typography color="primary">
+                          {customer.Orgname || "Kasadara"}
+                        </Typography>
                       }
                     />
                   </ListItem>
@@ -415,6 +415,7 @@ const ProjectCard = ({ customer, onDelete }: any) => {
 ProjectCard.propTypes = {
   customer: PropTypes.object,
   onDelete: PropTypes.func, // ← add this
+  comname: PropTypes.string,
 };
 
 export default ProjectCard;

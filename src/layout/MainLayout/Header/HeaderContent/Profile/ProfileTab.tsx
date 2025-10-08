@@ -22,7 +22,10 @@ import {
 
 const ProfileTab = ({ handleLogout }: any) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const handleListItemClick = (event: any, index: any) => {
+  const handleListItemClick = (
+    event: React.MouseEvent<HTMLDivElement>,
+    index: number
+  ) => {
     setSelectedIndex(index);
   };
 

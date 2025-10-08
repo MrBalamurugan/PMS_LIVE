@@ -5,10 +5,10 @@ import { CloseOutlined } from "@ant-design/icons"; // add this import
 import {
   useMediaQuery,
   Box,
-  Button,
-  Chip,
+  // Button,
+  // Chip,
   Dialog,
-  DialogActions,
+  // DialogActions,
   DialogContent,
   DialogTitle,
   Grid,
@@ -19,22 +19,22 @@ import {
   ListItemText,
   Stack,
   Typography,
-  Tooltip,
+  // Tooltip,
 } from "@mui/material";
 
 // third-party
 import { PatternFormat } from "react-number-format";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+// import { PDFDownloadLink } from "@react-pdf/renderer";
 
 // project import
 
 // assets
-import {
-  DeleteOutlined,
-  DownloadOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
-import ListCard from "./export-pdf/ListCard";
+// import {
+//   DeleteOutlined,
+//   DownloadOutlined,
+//   EditOutlined,
+// } from "@ant-design/icons";
+// import ListCard from "./export-pdf/ListCard";
 import AddOrganisation from "./AddOrganization";
 import MainCard from "../../components/MainCard";
 import Avatar from "../../components/@extended/Avatar";
@@ -58,7 +58,7 @@ for (const path in avatarImages) {
 }
 
 // Example usage
-const avatarImage = avatarMap["avatar-1.png"];
+// const avatarImage = avatarMap["avatar-1.png"];
 // constant
 
 // ==============================|| CUSTOMER - CARD PREVIEW ||============================== //

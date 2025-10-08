@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 
 // material-ui
 import { styled } from "@mui/material/styles";
@@ -16,9 +16,9 @@ const DrawerHeaderStyled = styled(Box, {
   paddingLeft: theme.spacing(open ? 3 : 0),
 }));
 
-DrawerHeaderStyled.propTypes = {
-  theme: PropTypes.object,
-  open: PropTypes.bool,
-};
+// DrawerHeaderStyled.propTypes = {
+//   theme: PropTypes.object,
+//   open: PropTypes.bool,
+// };
 
 export default DrawerHeaderStyled;

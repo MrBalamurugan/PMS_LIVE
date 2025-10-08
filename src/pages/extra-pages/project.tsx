@@ -1,6 +1,6 @@
-import { useMemo, useState, useEffect } from "react";
-import { Drawer, IconButton } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+import { useState, useEffect } from "react";
+import { Drawer } from "@mui/material";
+// import CloseIcon from "@mui/icons-material/Close";
 // material-ui
 import {
   Grid,
@@ -11,7 +11,7 @@ import {
   Select,
   MenuItem,
   Box,
-  Dialog,
+  // Dialog,
   Slide,
   Pagination,
   Typography,
@@ -23,14 +23,16 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import usePagination from "../../hooks/usePagination";
 import { GlobalFilter } from "../../utils/react-table";
-import makeData from "../../data/react-table";
-import AddOrganisation from "../../sections/organisation/AddOrganization";
-import OrganisationCard from "../../sections/organisation/OrganizationCard";
+// import makeData from "../../data/react-table";
+// import AddOrganisation from "../../sections/organisation/AddOrganization";
+// import OrganisationCard from "../../sections/organisation/OrganizationCard";
 import EmptyUserCard from "../../components/cards/skeleton/EmptyUserCard";
-import { PopupTransition } from "../../components/@extended/Transitions";
+// import { PopupTransition } from "../../components/@extended/Transitions";
 import axios from "axios";
 import ProjectCard from "../../sections/project/ProjectCard";
-import AddTeam from "../../sections/project/AddProject";
+import AddProject from "../../sections/project/AddProject";
+import Loader from "../../components/Loader";
+import { useLocation } from "react-router-dom";
 
 // ==============================|| CUSTOMER - CARD ||============================== //
 
@@ -67,11 +69,17 @@ const allColumns = [
 
 const Project = () => {
   const [allOrganizations, setAllOrganizations] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  // const navigate = useNavigate();
+  const location = useLocation();
+  const { customer: org } = location.state || {};
+  console.log("customer OrganisationCard", org);
+
   const [sortBy, setSortBy] = useState("Default");
   const [globalFilter, setGlobalFilter] = useState("");
   const [add, setAdd] = useState(false);
   const [customer, setCustomer] = useState(null);
-  const [userCard, setUserCard] = useState([]);
+  const [userCard, setUserCard] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const handleChange = (event: any) => {
     setSortBy(event.target.value);
@@ -90,9 +98,13 @@ const Project = () => {
   const API_URL = "https://pms-db-mock.onrender.com/Project";
   const fetchProjects = async () => {
     try {
+      setLoading(true);
+
       const res = await axios.get(API_URL);
-      const projects = res.data.map((proj: any) => ({
+      let projects = res.data.map((proj: any) => ({
         id: proj.id,
+        OrgId: proj.OrgId,
+        Orgname: proj.OrgName,
         name: proj.name,
         code: proj.code,
         type: proj.type,
@@ -113,10 +125,16 @@ const Project = () => {
         logo: proj.logo,
         time: proj.time || new Date().toISOString().slice(0, 10),
       }));
+
+      if (org?.id) {
+        projects = projects.filter((p: any) => p.OrgId === org.id);
+      }
       setAllOrganizations(projects);
       setUserCard(projects);
     } catch (err) {
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -153,13 +171,14 @@ const Project = () => {
     }
   };
 
-  const handleChangePage = (e: any, p: any) => {
+  const handleChangePage = (p: any) => {
     setPage(p);
     _DATA.jump(p);
   };
 
   return (
     <>
+      {loading && <Loader />}
       <Box sx={{ position: "relative", marginBottom: 3 }}>
         <Stack direction="row" alignItems="center">
           <Stack
@@ -235,18 +254,19 @@ const Project = () => {
               if (sortBy === "Status") return a.status.localeCompare(b.status);
               return a;
             })
-            .map((user: any, index: any) => (
+            .map((index: any) => (
               <Slide key={index} direction="up" in={true} timeout={50}>
                 <Grid item xs={12} sm={6} lg={4}>
                   <ProjectCard
                     customer={userCard[index]}
                     onDelete={handleDelete}
+                    comname={org?.companyName}
                   />
                 </Grid>
               </Slide>
             ))
         ) : (
-          <EmptyUserCard title={"You have not created any customer yet."} />
+          <EmptyUserCard title={"You have not created any project yet."} />
         )}
       </Grid>
       <Stack spacing={2} sx={{ p: 2.5 }} alignItems="flex-end">
@@ -256,7 +276,7 @@ const Project = () => {
           page={page}
           showFirstButton
           showLastButton
-          variant="combined"
+          variant="outlined"
           color="primary"
           onChange={handleChangePage}
         />
@@ -271,7 +291,8 @@ const Project = () => {
           sx: { width: { xs: "100%", sm: "60%" } },
         }}
       >
-        <AddTeam
+        <AddProject
+          orgId={org}
           customer={customer}
           onCancel={handleAdd}
           onSave={handleAddOrUpdate}

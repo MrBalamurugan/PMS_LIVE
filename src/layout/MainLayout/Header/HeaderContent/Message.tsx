@@ -52,7 +52,7 @@ const Message = () => {
   const theme = useTheme();
   const matchesXs = useMediaQuery(theme.breakpoints.down("md"));
 
-  const anchorRef = useRef(null);
+  const anchorRef = useRef<HTMLElement | null>(null);
   const [open, setOpen] = useState(false);
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);

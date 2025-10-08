@@ -3,6 +3,26 @@ import { useLayoutEffect, useState } from "react";
 // material-ui
 import { useTheme } from "@mui/material/styles";
 import { Box, Typography, useMediaQuery } from "@mui/material";
+import type {
+  ForwardRefExoticComponent,
+  RefAttributes,
+  ReactNode,
+} from "react";
+
+interface MenuChild {
+  id: string;
+  title: ReactNode; // string or JSX
+  type: string;
+  url?: string;
+  icon?:
+    | ForwardRefExoticComponent<RefAttributes<SVGSVGElement>>
+    | React.ComponentType<any>;
+  children?: MenuChild[];
+}
+
+interface MenuItems {
+  items: MenuChild[];
+}
 
 // project import
 import NavGroup from "./NavGroup";
@@ -22,11 +42,10 @@ const Navigation = () => {
   const { drawerOpen } = useSelector((state: any) => state.menu);
   const [selectedItems, setSelectedItems] = useState("");
   const [selectedLevel, setSelectedLevel] = useState(0);
-  const [menuItems, setMenuItems] = useState({ items: [] });
+  const [menuItems, setMenuItems] = useState<MenuItems>({ items: [] });
 
   useLayoutEffect(() => {
-    setMenuItems(menuItem);
-    // eslint-disable-next-line
+    setMenuItems(menuItem as MenuItems);
   }, [menuItem]);
 
   const isHorizontal =
@@ -34,8 +53,13 @@ const Navigation = () => {
 
   const lastItem = isHorizontal ? HORIZONTAL_MAX_ITEM : null;
   let lastItemIndex = menuItems.items.length - 1;
-  let remItems = [];
-  let lastItemId;
+  let remItems: {
+    title: ReactNode;
+    elements?: MenuChild[];
+    icon?: ReactNode;
+  }[] = [];
+
+  let lastItemId: string | undefined;
 
   //  first it checks menu item is more than giving HORIZONTAL_MAX_ITEM after that get lastItemid by giving horizontal max
   // item and it sets horizontal menu by giving horizontal max item lastly slice menuItem from array and set into remItems

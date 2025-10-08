@@ -4,14 +4,26 @@ import getColors from "../../utils/getColors";
 import getShadow from "../../utils/getShadow";
 
 // project import
-
+type ShadowType =
+  | "primary"
+  | "secondary"
+  | "error"
+  | "warning"
+  | "info"
+  | "success"
+  | "primaryButton"
+  | "secondaryButton"
+  | "errorButton"
+  | "warningButton"
+  | "infoButton"
+  | "successButton";
 // ==============================|| BUTTON - COLORS ||============================== //
 
 function getColorStyle({ variant, color, theme }: any) {
   const colors = getColors(theme, color);
   const { lighter, main, dark, contrastText } = colors;
 
-  const buttonShadow = `${color}Button`;
+  const buttonShadow = `${color}Button` as ShadowType;
   const shadows = getShadow(theme, buttonShadow);
 
   const commonShadow = {

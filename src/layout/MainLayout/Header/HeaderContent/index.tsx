@@ -14,7 +14,7 @@ import Profile from "./Profile";
 // ==============================|| HEADER - CONTENT ||============================== //
 
 const HeaderContent = () => {
-  const matchesXs = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const matchesXs = useMediaQuery((theme: any) => theme.breakpoints.down("md"));
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const megaMenu = useMemo(() => <MegaMenuSection />, []);

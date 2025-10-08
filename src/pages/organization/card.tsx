@@ -71,7 +71,7 @@ const CustomerCardPage = () => {
   const [globalFilter, setGlobalFilter] = useState("");
   const [add, setAdd] = useState(false);
   const [customer, setCustomer] = useState(null);
-  const [userCard, setUserCard] = useState([]);
+  const [userCard, setUserCard] = useState<any[]>([]);
   const [page, setPage] = useState(1);
   const handleChange = (event: any) => {
     setSortBy(event.target.value);
@@ -101,7 +101,7 @@ const CustomerCardPage = () => {
   const count = Math.ceil(userCard.length / PER_PAGE);
   const _DATA = usePagination(userCard, PER_PAGE);
 
-  const handleChangePage = (e: any, p: any) => {
+  const handleChangePage = (p: any) => {
     setPage(p);
     _DATA.jump(p);
   };
@@ -171,7 +171,7 @@ const CustomerCardPage = () => {
         {userCard.length > 0 ? (
           _DATA
             .currentData()
-            .sort(function (a, b) {
+            .sort(function (a: any, b: any) {
               if (sortBy === "Customer Name")
                 return a.fatherName.localeCompare(b.fatherName);
               if (sortBy === "Email") return a.email.localeCompare(b.email);
@@ -183,7 +183,7 @@ const CustomerCardPage = () => {
               if (sortBy === "Status") return a.status.localeCompare(b.status);
               return a;
             })
-            .map((use: any, index: any) => (
+            .map((user: any, index: any) => (
               <Slide key={index} direction="up" in={true} timeout={50}>
                 <Grid item xs={12} sm={6} lg={4}>
                   <OrganisationCard customer={user} />
@@ -201,7 +201,7 @@ const CustomerCardPage = () => {
           page={page}
           showFirstButton
           showLastButton
-          variant="combined"
+          variant="outlined"
           color="primary"
           onChange={handleChangePage}
         />

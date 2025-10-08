@@ -11,7 +11,7 @@ import {
   DialogContent,
   Divider,
   FormControl,
-  FormLabel,
+  // FormLabel,
   Grid,
   InputLabel,
   ListItemText,
@@ -20,7 +20,7 @@ import {
   Select,
   Stack,
   TextField,
-  Tooltip,
+  // Tooltip,
   Typography,
 } from "@mui/material";
 
@@ -48,7 +48,7 @@ const statuses = ["Active", "Inactive"];
 
 import { IconButton } from "@mui/material";
 
-const AddTeam = ({ team, users, onCancel, onSave }: any) => {
+const AddTeam = ({ team, onCancel, onSave }: any) => {
   console.log("usersAdd team", team);
   const theme = useTheme();
   const isCreating = !team?.id;

@@ -3,21 +3,21 @@ import { useLocation, Link, Outlet } from "react-router-dom";
 
 // material-ui
 import { Box, Grid, Tab, Tabs } from "@mui/material";
-import {
-  getUserStory,
-  getUserStoryOrder,
-  getProfiles,
-  getComments,
-  getItems,
-  getColumns,
-  getColumnsOrder,
-} from "store/reducers/kanban";
+// import {
+//   getUserStory,
+//   getUserStoryOrder,
+//   getProfiles,
+//   getComments,
+//   getItems,
+//   getColumns,
+//   getColumnsOrder,
+// } from "../../../store/reducers/kanban";
 
 // project imports
 
-import { useDispatch } from "store";
-import { openDrawer } from "store/reducers/menu";
 import Loader from "../../../components/Loader";
+import { useDispatch } from "../../../store";
+import { openDrawer } from "../../../store/reducers/menu";
 
 function a11yProps(index: any) {
   return {
@@ -32,7 +32,7 @@ export default function KanbanPage() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
 
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(true);
 
   let selectedTab = 0;
   switch (pathname) {
@@ -45,7 +45,7 @@ export default function KanbanPage() {
   }
 
   const [value, setValue] = useState(selectedTab);
-  const handleChange = (event: any, newValue: any) => {
+  const handleChange = (newValue: any) => {
     setValue(newValue);
   };
 
@@ -55,27 +55,27 @@ export default function KanbanPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    const items = dispatch(getItems());
-    const columns = dispatch(getColumns());
-    const columnOrder = dispatch(getColumnsOrder());
-    const profile = dispatch(getProfiles());
-    const comments = dispatch(getComments());
-    const story = dispatch(getUserStory());
-    const storyOrder = dispatch(getUserStoryOrder());
+  // useEffect(() => {
+  //   const items = dispatch(getItems());
+  //   const columns = dispatch(getColumns());
+  //   const columnOrder = dispatch(getColumnsOrder());
+  //   const profile = dispatch(getProfiles());
+  //   const comments = dispatch(getComments());
+  //   const story = dispatch(getUserStory());
+  //   const storyOrder = dispatch(getUserStoryOrder());
 
-    Promise.all([
-      items,
-      columns,
-      columnOrder,
-      profile,
-      comments,
-      story,
-      storyOrder,
-    ]).then(() => setLoading(false));
+  //   Promise.all([
+  //     items,
+  //     columns,
+  //     columnOrder,
+  //     profile,
+  //     comments,
+  //     story,
+  //     storyOrder,
+  //   ]).then(() => setLoading(false));
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   if (loading) return <Loader />;
 

@@ -2,7 +2,15 @@ import PropTypes from "prop-types";
 import { forwardRef } from "react";
 
 // material-ui
-import { Collapse, Fade, Box, Grow, Slide, Zoom } from "@mui/material";
+import {
+  Collapse,
+  Fade,
+  Box,
+  Grow,
+  Slide,
+  Zoom,
+  type ZoomProps,
+} from "@mui/material";
 
 // ==============================|| TRANSITIONS ||============================== //
 
@@ -129,6 +137,8 @@ Transitions.propTypes = {
 
 export default Transitions;
 
-export const PopupTransition = forwardRef(function Transition(props, ref) {
-  return <Zoom ref={ref} timeout={200} {...props} />;
-});
+export const PopupTransition = forwardRef<unknown, ZoomProps>(
+  function Transition(props, ref) {
+    return <Zoom ref={ref} timeout={200} {...props} />;
+  }
+);

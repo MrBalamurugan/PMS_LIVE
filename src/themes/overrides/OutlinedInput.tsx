@@ -4,12 +4,16 @@ import getColors from "../../utils/getColors";
 import { ThemeMode } from "../../config";
 
 // ==============================|| OVERRIDES - INPUT BORDER & SHADOWS ||============================== //
+interface GetColorProps {
+  variant: "primary" | "secondary" | "error" | "warning" | "info" | "success";
+  theme: any;
+}
 
-function getColor({ variant, theme }: any) {
+function getColor({ variant, theme }: GetColorProps) {
   const colors = getColors(theme, variant);
   const { light } = colors;
 
-  const shadows = getShadow(theme, `${variant}`);
+  const shadows = getShadow(theme, variant); // no template string needed
 
   return {
     "&:hover .MuiOutlinedInput-notchedOutline": {

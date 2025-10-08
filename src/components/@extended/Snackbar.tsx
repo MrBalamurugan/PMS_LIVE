@@ -31,8 +31,15 @@ function GrowTransition(props: any) {
   return <Grow {...props} />;
 }
 
+type TransitionType =
+  | "SlideLeft"
+  | "SlideUp"
+  | "SlideRight"
+  | "SlideDown"
+  | "Grow"
+  | "Fade";
 // animation options
-const animation = {
+const animation: Record<TransitionType, (props: any) => JSX.Element> = {
   SlideLeft: TransitionSlideLeft,
   SlideUp: TransitionSlideUp,
   SlideRight: TransitionSlideRight,
@@ -54,12 +61,22 @@ const Snackbar = () => {
     open,
     transition,
     variant,
-  } = snackbar;
+  } = snackbar as {
+    actionButton?: boolean;
+    anchorOrigin: { vertical: "top" | "bottom"; horizontal: "left" | "right" };
+    alert: { variant: "filled" | "outlined" | "standard"; color: string };
+    close?: boolean;
+    message: string;
+    open: boolean;
+    transition: TransitionType;
+    variant: "default" | "alert";
+  };
 
-  const handleClose = (event: any, reason: any) => {
-    if (reason === "clickaway") {
-      return;
-    }
+  const handleClose = (
+    event: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") return;
     dispatch(closeSnackbar());
   };
 
@@ -108,12 +125,14 @@ const Snackbar = () => {
         >
           <Alert
             variant={alert.variant}
-            color={alert.color}
+            color={alert.color as "success" | "info" | "warning" | "error"}
             action={
               <>
                 {actionButton !== false && (
                   <Button
-                    color={alert.color}
+                    color={
+                      alert.color as "success" | "info" | "warning" | "error"
+                    }
                     size="small"
                     onClick={(e) => handleClose(e, "buttonClick")}
                   >

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { Drawer, Tooltip } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
+// import CloseIcon from "@mui/icons-material/Close";
 import { Badge } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person"; // User
 import Groups2Icon from "@mui/icons-material/Groups2";
@@ -9,14 +9,14 @@ import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded"; // ma
 import NoteAddOutlinedIcon from "@mui/icons-material/NoteAddOutlined";
 import { useNavigate } from "react-router-dom";
 import {
-  Box,
+  // Box,
   Button,
-  Chip,
-  Dialog,
+  // Chip,
+  // Dialog,
   Divider,
   Fade,
   Grid,
-  Link,
+  // Link,
   List,
   ListItem,
   ListItemAvatar,
@@ -29,18 +29,18 @@ import {
 } from "@mui/material";
 
 // third-party
-import { PatternFormat } from "react-number-format";
-import { PDFDownloadLink } from "@react-pdf/renderer";
+// import { PatternFormat } from "react-number-format";
+// import { PDFDownloadLink } from "@react-pdf/renderer";
 
 // project import
 
 // assets
 import {
   EnvironmentOutlined,
-  LinkOutlined,
+  // LinkOutlined,
   MailOutlined,
   MoreOutlined,
-  PhoneOutlined,
+  // PhoneOutlined,
 } from "@ant-design/icons";
 import Avatar from "../../components/@extended/Avatar";
 import MainCard from "../../components/MainCard";
@@ -48,7 +48,7 @@ import OrganisationPreview from "./OrganizationPreview";
 import IconButton from "../../components/@extended/IconButton";
 import AlertOrganisationDelete from "./AlertOrganizationDelete";
 import AddOrganisation from "./AddOrganization";
-import ListSmallCard from "./export-pdf/ListSmallCard";
+// import ListSmallCard from "./export-pdf/ListSmallCard";
 
 const avatarImages = import.meta.glob(
   "../../assets/images/users/*.{png,jpg,jpeg,svg}",
@@ -65,7 +65,7 @@ for (const path in avatarImages) {
 }
 
 // Example usage
-const avatarImage = avatarMap["avatar-1.png"];
+// const avatarImage = avatarMap["avatar-1.png"];
 // constant
 // ==============================|| CUSTOMER - CARD ||============================== //
 
@@ -356,7 +356,11 @@ const OrganisationCard = ({ customer, onDelete }: any) => {
                 overlap="circular"
               >
                 <Tooltip title="Projects">
-                  <IconButton onClick={() => navigate(`/project`)}>
+                  <IconButton
+                    onClick={() =>
+                      navigate(`/project`, { state: { customer } })
+                    }
+                  >
                     <NoteAddOutlinedIcon
                       fontSize="large"
                       sx={{ color: "grey.500" }}

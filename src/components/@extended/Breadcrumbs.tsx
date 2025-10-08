@@ -14,6 +14,15 @@ import { ApartmentOutlined, HomeFilled, HomeOutlined } from "@ant-design/icons";
 import MainCard from "../MainCard";
 
 // ==============================|| BREADCRUMBS ||============================== //
+interface NavItem {
+  id?: string;
+  title?: string;
+  type?: string;
+  url?: string;
+  icon?: React.ElementType;
+  breadcrumbs?: boolean;
+  children?: NavItem[];
+}
 
 const Breadcrumbs = ({
   orgName,
@@ -32,8 +41,12 @@ const Breadcrumbs = ({
 }: any) => {
   const theme = useTheme();
   const location = useLocation();
-  const [main, setMain] = useState();
-  const [item, setItem] = useState();
+
+  const [main, setMain] = useState<NavItem | undefined>();
+  const [item, setItem] = useState<NavItem | undefined>();
+
+  // const [main, setMain] = useState();
+  // const [item, setItem] = useState();
 
   let currentPath = location.pathname;
 
@@ -82,13 +95,13 @@ const Breadcrumbs = ({
   };
 
   useEffect(() => {
-    navigation?.items?.map((menu: any) => {
-      if (menu.type && menu.type === "group") {
+    navigation?.items?.forEach((menu: any) => {
+      if (menu.type === "group") {
         getCollapse(menu);
       }
-      return false;
     });
-  });
+  }, [navigation, currentPath]);
+
   const pathParts = currentPath.split("/").filter(Boolean);
   const lastSegment = pathParts[pathParts.length - 1];
 
@@ -182,7 +195,7 @@ const Breadcrumbs = ({
 
   // items
   if (item && item.type === "item") {
-    itemTitle = item.title;
+    itemTitle = item.title ?? "";
 
     ItemIcon = item.icon ? item.icon : ApartmentOutlined;
     itemContent = (
@@ -257,6 +270,7 @@ const Breadcrumbs = ({
 };
 
 Breadcrumbs.propTypes = {
+  orgName: PropTypes.string,
   card: PropTypes.bool,
   divider: PropTypes.bool,
   icon: PropTypes.bool,

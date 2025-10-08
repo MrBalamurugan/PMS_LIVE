@@ -27,7 +27,7 @@ const MobileSection = () => {
   const theme = useTheme();
 
   const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
+  const anchorRef = useRef<HTMLElement | null>(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -42,11 +42,14 @@ const MobileSection = () => {
   };
 
   const prevOpen = useRef(open);
+
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
-      anchorRef.current.focus();
+      const anchor = anchorRef.current;
+      if (anchor) {
+        anchor.focus();
+      }
     }
-
     prevOpen.current = open;
   }, [open]);
 
@@ -77,7 +80,7 @@ const MobileSection = () => {
       <Popper
         placement="bottom-end"
         open={open}
-        anchorEl={anchorRef.current}
+        anchorEl={anchorRef.current ?? undefined}
         role={undefined}
         transition
         disablePortal

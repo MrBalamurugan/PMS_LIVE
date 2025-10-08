@@ -28,7 +28,7 @@ import {
   EnvironmentOutlined,
   LinkOutlined,
   MailOutlined,
-  PhoneOutlined,
+  // PhoneOutlined,
 } from "@ant-design/icons";
 import MainCard from "../../components/MainCard";
 import Avatar from "../../components/@extended/Avatar";

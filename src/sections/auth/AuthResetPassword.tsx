@@ -35,14 +35,17 @@ import { openSnackbar } from "../../store/reducers/snackbar";
 import IconButton from "../../components/@extended/IconButton";
 
 // ============================|| STATIC - RESET PASSWORD ||============================ //
-
+type PasswordLevel = {
+  label: string;
+  color: string;
+};
 const AuthResetPassword = () => {
   const scriptedRef = useScriptRef();
   const navigate = useNavigate();
 
   const { isLoggedIn } = useAuth();
 
-  const [level, setLevel] = useState();
+  const [level, setLevel] = useState<PasswordLevel | undefined>(undefined);
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -83,6 +86,7 @@ const AuthResetPassword = () => {
         { setErrors, setStatus, setSubmitting }
       ) => {
         try {
+          console.log("values", values);
           // password reset
           if (scriptedRef.current) {
             setStatus({ success: true });
@@ -106,7 +110,7 @@ const AuthResetPassword = () => {
               });
             }, 1500);
           }
-        } catch (err) {
+        } catch (err: any) {
           console.error(err);
           if (scriptedRef.current) {
             setStatus({ success: false });
@@ -161,7 +165,7 @@ const AuthResetPassword = () => {
                   }
                   placeholder="Enter password"
                 />
-                {touched.password && errors.password && (
+                {touched.password && typeof errors.password === "string" && (
                   <FormHelperText error id="helper-text-password-reset">
                     {errors.password}
                   </FormHelperText>
@@ -205,15 +209,19 @@ const AuthResetPassword = () => {
                   onChange={handleChange}
                   placeholder="Enter confirm password"
                 />
-                {touched.confirmPassword && errors.confirmPassword && (
-                  <FormHelperText error id="helper-text-confirm-password-reset">
-                    {errors.confirmPassword}
-                  </FormHelperText>
-                )}
+                {touched.confirmPassword &&
+                  typeof errors.confirmPassword === "string" && (
+                    <FormHelperText
+                      error
+                      id="helper-text-confirm-password-reset"
+                    >
+                      {errors.confirmPassword}
+                    </FormHelperText>
+                  )}
               </Stack>
             </Grid>
 
-            {errors.submit && (
+            {typeof errors.submit === "string" && (
               <Grid item xs={12}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Grid>

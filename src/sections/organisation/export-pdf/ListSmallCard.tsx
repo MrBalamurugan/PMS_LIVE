@@ -129,7 +129,7 @@ for (const path in avatarImages) {
 }
 
 // Example usage
-const avatarImage = avatarMap["avatar-1.png"];
+// const avatarImage = avatarMap["avatar-1.png"];
 // constant
 
 const ListSmallCard = ({ customer }: any) => {

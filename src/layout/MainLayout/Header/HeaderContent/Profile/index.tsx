@@ -1,4 +1,4 @@
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { alpha } from "@mui/material/styles";
@@ -102,7 +102,7 @@ const Profile = () => {
 
   const [value, setValue] = useState(0);
 
-  const handleChange = (event: any, newValue: any) => {
+  const handleChange = (newValue: any) => {
     setValue(newValue);
   };
 
