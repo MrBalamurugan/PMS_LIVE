@@ -253,13 +253,15 @@ const Organisation = () => {
               if (sortBy === "Status") return a.status.localeCompare(b.status);
               return a;
             })
-            .map((index: any) => (
-              <Slide key={index} direction="up" in={true} timeout={50}>
+            .map((org: any, index: number) => (
+              <Slide
+                key={org.id || index}
+                direction="up"
+                in={true}
+                timeout={50}
+              >
                 <Grid item xs={12} sm={6} lg={4}>
-                  <OrganisationCard
-                    customer={userCard[index]}
-                    onDelete={handleDelete}
-                  />
+                  <OrganisationCard customer={org} onDelete={handleDelete} />
                 </Grid>
               </Slide>
             ))

@@ -254,11 +254,16 @@ const Project = () => {
               if (sortBy === "Status") return a.status.localeCompare(b.status);
               return a;
             })
-            .map((index: any) => (
-              <Slide key={index} direction="up" in={true} timeout={50}>
+            .map((project: any, index: number) => (
+              <Slide
+                key={project.id || index}
+                direction="up"
+                in={true}
+                timeout={50}
+              >
                 <Grid item xs={12} sm={6} lg={4}>
                   <ProjectCard
-                    customer={userCard[index]}
+                    customer={project}
                     onDelete={handleDelete}
                     comname={org?.companyName}
                   />
