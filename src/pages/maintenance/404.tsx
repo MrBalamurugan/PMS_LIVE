@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 import { Box, Button, Grid, Stack, Typography } from "@mui/material";
 
 // assets
-import error404 from "assets/images/maintenance/Error404.png";
-import TwoCone from "assets/images/maintenance/TwoCone.png";
+import error404 from "../../assets/images/maintenance/Error404.png";
+import TwoCone from "../../assets/images/maintenance/TwoCone.png";
 import { APP_DEFAULT_PATH } from "../../config";
 
 // ==============================|| ERROR 404 - MAIN ||============================== //

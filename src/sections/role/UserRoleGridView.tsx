@@ -83,7 +83,7 @@ const UserRoleGridView: FC<UserRoleGridViewProps> = ({ data }) => {
     [entity: string]: { [right: string]: boolean };
   }>({});
 
-  const [savedRights, setSavedRights] = useState<{
+  const [_savedRights, setSavedRights] = useState<{
     [entity: string]: { [right: string]: boolean };
   }>({});
 

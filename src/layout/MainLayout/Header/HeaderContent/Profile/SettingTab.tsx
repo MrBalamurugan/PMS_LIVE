@@ -22,7 +22,7 @@ import {
 const SettingTab = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const handleListItemClick = (
-    event: React.MouseEvent<HTMLDivElement>,
+    _event: React.MouseEvent<HTMLDivElement>,
     index: number
   ) => {
     setSelectedIndex(index);

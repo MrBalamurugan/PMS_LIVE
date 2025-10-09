@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 
 // assets
-import error500 from "assets/images/maintenance/Error500.png";
+import error500 from "../../assets/images/maintenance/Error500.png";
 import { APP_DEFAULT_PATH } from "../../config";
 
 // ==============================|| ERROR 500 - MAIN ||============================== //

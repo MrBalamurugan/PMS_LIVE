@@ -21,10 +21,10 @@ import { motion } from "framer-motion";
 
 // assets
 import { SendOutlined } from "@ant-design/icons";
-import imgfooterlogo from "assets/images/landing/codedthemes-logo.svg";
-import imgfootersoc1 from "assets/images/landing/img-soc1.svg";
-import imgfootersoc2 from "assets/images/landing/img-soc2.svg";
-import imgfootersoc3 from "assets/images/landing/img-soc3.svg";
+import imgfooterlogo from "../../assets/images/landing/codedthemes-logo.svg";
+import imgfootersoc1 from "../../assets/images/landing/img-soc1.svg";
+import imgfootersoc2 from "../../assets/images/landing/img-soc2.svg";
+import imgfootersoc3 from "../../assets/images/landing/img-soc3.svg";
 import { ThemeDirection, ThemeMode } from "../../config";
 // import useConfig from "../../hooks/useConfig";
 import AnimateButton from "../../components/@extended/AnimateButton";
