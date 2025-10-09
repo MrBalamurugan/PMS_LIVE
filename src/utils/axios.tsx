@@ -1,10 +1,7 @@
 import axios from "axios";
 
 const axiosServices = axios.create({
-  baseURL:
-    import.meta.env.MODE === "development"
-      ? "/api"
-      : "https://idp-staging.faciliteasy.com", // your backend URL
+  baseURL: "/api",
 });
 
 // ==============================|| AXIOS - FOR MOCK SERVICES ||============================== //
