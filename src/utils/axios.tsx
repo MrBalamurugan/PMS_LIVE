@@ -1,23 +1,24 @@
 import axios from "axios";
 
-const axiosServices = axios.create({
-  baseURL: "/api",
-});
+const baseURL =
+  import.meta.env.VITE_API_URL ||
+  (process.env.REACT_APP_API_URL as string) ||
+  "/api";
 
-// ==============================|| AXIOS - FOR MOCK SERVICES ||============================== //
+const axiosServices = axios.create({
+  baseURL,
+});
 
 axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
     if (
-      error.response.status === 401 &&
+      error.response?.status === 401 &&
       !window.location.href.includes("/login")
     ) {
-      (window.location as any) = "/login";
+      window.location.href = "/login";
     }
-    return Promise.reject(
-      (error.response && error.response.data) || "Wrong Services"
-    );
+    return Promise.reject(error.response?.data || "Wrong Services");
   }
 );
 
