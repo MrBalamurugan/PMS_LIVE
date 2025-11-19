@@ -27,8 +27,9 @@ const LogoSection = ({ reverse, isIcon, sx, to }: any) => (
         src={ExpLogo}
         alt="Main Logo"
         style={{
-          height: 80,
+          height: 90,
           paddingTop: 10,
+          marginRight: 40,
           transform: reverse ? "scaleX(-1)" : "none",
         }}
       />

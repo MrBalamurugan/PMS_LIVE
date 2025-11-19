@@ -3,7 +3,6 @@ import { useEffect, useState, type PropsWithChildren } from "react";
 import useConfig from "../hooks/useConfig";
 import { IntlProvider as BaseIntlProvider } from "react-intl";
 
-// ✅ Extend type to support children properly
 const IntlProvider = BaseIntlProvider as unknown as React.FC<
   React.ComponentProps<typeof BaseIntlProvider> & { children?: React.ReactNode }
 >;

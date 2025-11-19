@@ -142,16 +142,19 @@ const NavItem = ({ item, level }: any) => {
           {itemIcon}
         </ListItemIcon>
       )}
-      <ListItemText
-        primary={
-          <Typography
-            variant="h6"
-            sx={{ color: isSelected ? iconSelectedColor : textColor }}
-          >
-            {item.title}
-          </Typography>
-        }
-      />
+      {(drawerOpen || level !== 1) && (
+        <ListItemText
+          primary={
+            <Typography
+              variant="h6"
+              sx={{ color: isSelected ? iconSelectedColor : textColor }}
+            >
+              {item.title}
+            </Typography>
+          }
+        />
+      )}
+
       {item.chip && (
         <Chip
           color={item.chip.color}

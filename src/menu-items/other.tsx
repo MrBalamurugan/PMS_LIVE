@@ -3,6 +3,10 @@ import { FormattedMessage } from "react-intl";
 import NoteAltOutlinedIcon from "@mui/icons-material/NoteAltOutlined";
 import LocationCityOutlinedIcon from "@mui/icons-material/LocationCityOutlined";
 import LeaderboardIcon from "@mui/icons-material/Leaderboard";
+import AccountBoxOutlinedIcon from "@mui/icons-material/AccountBoxOutlined";
+import Groups2OutlinedIcon from "@mui/icons-material/Groups2Outlined";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 // assets
 import {
   BorderOutlined,
@@ -31,6 +35,10 @@ const icons = {
   NoteAltOutlinedIcon,
   LocationCityOutlinedIcon,
   LeaderboardIcon,
+  AccountBoxOutlinedIcon,
+  Groups2OutlinedIcon,
+  AdminPanelSettingsOutlinedIcon,
+  ManageAccountsOutlinedIcon,
 };
 
 // ==============================|| MENU ITEMS - SUPPORT ||============================== //
@@ -47,28 +55,6 @@ const other = {
       url: "/dashboard",
       icon: icons.ChromeOutlined,
     },
-    // {
-    //   id: "documentation",
-    //   title: <FormattedMessage id="documentation" />,
-    //   type: "item",
-    //   url: "https://links.codedthemes.com/BQFrl",
-    //   icon: icons.QuestionOutlined,
-    //   external: true,
-    //   target: true,
-    //   chip: {
-    //     label: "gitbook",
-    //     color: "secondary",
-    //     size: "small",
-    //   },
-    // },
-    // },
-    {
-      id: "Project",
-      title: <FormattedMessage id="Project" />,
-      type: "item",
-      icon: icons.NoteAltOutlinedIcon,
-      url: "/project",
-    },
     {
       id: "Organization",
       title: <FormattedMessage id="Organization" />,
@@ -76,40 +62,34 @@ const other = {
       icon: icons.LocationCityOutlinedIcon,
       url: "/organization",
     },
-    // {
-    //   id: "User",
-    //   title: <FormattedMessage id="User" />,
-    //   type: "item",
-    //   url: "organization/users",
-    //   icon: icons.ChromeOutlined,
-    // },
-    // {
-    //   id: "Team",
-    //   title: <FormattedMessage id="Team" />,
-    //   type: "item",
-    //   url: "organization/teams",
-    //   icon: icons.ChromeOutlined,
-    // },
-    // {
-    //   id: "Role",
-    //   title: <FormattedMessage id="Role" />,
-    //   type: "item",
-    //   url: "organization/roles",
-    //   icon: icons.ChromeOutlined,
-    // },
     {
-      id: "Setting",
-      title: <FormattedMessage id="Setting" />,
-      type: "item",
-      url: "/setting",
-      icon: icons.SettingsOutlinedIcon,
-    },
-    {
-      id: "Lead",
-      title: <FormattedMessage id="Lead" />,
-      type: "item",
-      icon: icons.LeaderboardIcon,
-      url: "/lead",
+      id: "User Management",
+      title: <FormattedMessage id="User Management" />,
+      type: "collapse",
+      icon: icons.ManageAccountsOutlinedIcon,
+      children: [
+        {
+          id: "Users",
+          title: <FormattedMessage id="Users" />,
+          type: "item",
+          icon: icons.AccountBoxOutlinedIcon,
+          url: "/usermanagement/users",
+        },
+        {
+          id: "Teams",
+          title: <FormattedMessage id="Teams" />,
+          type: "item",
+          icon: icons.Groups2OutlinedIcon,
+          url: "/usermanagement/teams",
+        },
+        {
+          id: "Roles",
+          title: <FormattedMessage id="Roles" />,
+          type: "item",
+          icon: icons.AdminPanelSettingsOutlinedIcon,
+          url: "/usermanagement/roles",
+        },
+      ],
     },
   ],
 };

@@ -3,7 +3,7 @@ import { ThemeMode } from "../../config";
 
 // ==============================|| PRESET THEME - Dark Green ||============================== //
 
-const Theme4 = (colors: any, mode: any) => {
+const Theme3 = (colors: any, mode: any) => {
   const { grey } = colors;
   const greyColors = {
     0: grey[0],
@@ -128,4 +128,4 @@ const Theme4 = (colors: any, mode: any) => {
   };
 };
 
-export default Theme4;
+export default Theme3;

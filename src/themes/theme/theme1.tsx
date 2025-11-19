@@ -43,6 +43,15 @@ const Theme1 = (colors: any, mode: any) => {
   let infoColors = ["#DCF0FF", "#7EB9FF", "#549BFF", "#3D78DB", "#1A3D93"];
   let successColors = ["#EAFCD4", "#8AE65B", "#58D62A", "#3DB81E", "#137C0D"];
 
+  const customColors = {
+    lighter: "#b8ffb8",
+    light: "#70ff70",
+    main: "#03ff03",
+    dark: "#02c702",
+    darker: "#019901",
+    contrastText: "#000",
+  };
+
   if (mode === ThemeMode.DARK) {
     primaryColors = [
       "#1c2134",
@@ -63,68 +72,72 @@ const Theme1 = (colors: any, mode: any) => {
   }
 
   return {
-    primary: {
-      lighter: primaryColors[0],
-      100: primaryColors[1],
-      200: primaryColors[2],
-      light: primaryColors[3],
-      400: primaryColors[4],
-      main: primaryColors[5],
-      dark: primaryColors[6],
-      700: primaryColors[7],
-      darker: primaryColors[8],
-      900: primaryColors[9],
-      contrastText,
+    palette: {
+      primary: {
+        lighter: primaryColors[0],
+        100: primaryColors[1],
+        200: primaryColors[2],
+        light: primaryColors[3],
+        400: primaryColors[4],
+        main: primaryColors[5],
+        dark: primaryColors[6],
+        700: primaryColors[7],
+        darker: primaryColors[8],
+        900: primaryColors[9],
+        custom: customColors,
+
+        contrastText,
+      },
+      secondary: {
+        lighter: greyColors[100],
+        100: greyColors[100],
+        200: greyColors[200],
+        light: greyColors[300],
+        400: greyColors[400],
+        main: greyColors[500],
+        600: greyColors[600],
+        dark: greyColors[700],
+        800: greyColors[800],
+        darker: greyColors[900],
+        A100: greyColors[0],
+        A200: greyColors.A400,
+        A300: greyColors.A700,
+        contrastText: greyColors[0],
+      },
+      error: {
+        lighter: errorColors[0],
+        light: errorColors[1],
+        main: errorColors[2],
+        dark: errorColors[3],
+        darker: errorColors[4],
+        contrastText,
+      },
+      warning: {
+        lighter: warningColors[0],
+        light: warningColors[1],
+        main: warningColors[2],
+        dark: warningColors[3],
+        darker: warningColors[4],
+        contrastText: greyColors[100],
+      },
+      info: {
+        lighter: infoColors[0],
+        light: infoColors[1],
+        main: infoColors[2],
+        dark: infoColors[3],
+        darker: infoColors[4],
+        contrastText,
+      },
+      success: {
+        lighter: successColors[0],
+        light: successColors[1],
+        main: successColors[2],
+        dark: successColors[3],
+        darker: successColors[4],
+        contrastText,
+      },
+      grey: greyColors,
     },
-    secondary: {
-      lighter: greyColors[100],
-      100: greyColors[100],
-      200: greyColors[200],
-      light: greyColors[300],
-      400: greyColors[400],
-      main: greyColors[500],
-      600: greyColors[600],
-      dark: greyColors[700],
-      800: greyColors[800],
-      darker: greyColors[900],
-      A100: greyColors[0],
-      A200: greyColors.A400,
-      A300: greyColors.A700,
-      contrastText: greyColors[0],
-    },
-    error: {
-      lighter: errorColors[0],
-      light: errorColors[1],
-      main: errorColors[2],
-      dark: errorColors[3],
-      darker: errorColors[4],
-      contrastText,
-    },
-    warning: {
-      lighter: warningColors[0],
-      light: warningColors[1],
-      main: warningColors[2],
-      dark: warningColors[3],
-      darker: warningColors[4],
-      contrastText: greyColors[100],
-    },
-    info: {
-      lighter: infoColors[0],
-      light: infoColors[1],
-      main: infoColors[2],
-      dark: infoColors[3],
-      darker: infoColors[4],
-      contrastText,
-    },
-    success: {
-      lighter: successColors[0],
-      light: successColors[1],
-      main: successColors[2],
-      dark: successColors[3],
-      darker: successColors[4],
-      contrastText,
-    },
-    grey: greyColors,
   };
 };
 

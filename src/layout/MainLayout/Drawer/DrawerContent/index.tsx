@@ -1,9 +1,8 @@
 // material-ui
-import { useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery, useTheme } from "@mui/material";
 
 // project import
 // import NavCard from "./NavCard";
-import SimpleBar from "../../../../components/third-party/SimpleBar";
 import Navigation from "./Navigation";
 import { useSelector } from "../../../../store";
 
@@ -17,12 +16,10 @@ const DrawerContent = () => {
   const { drawerOpen } = menu;
 
   return (
-    <SimpleBar
+    <Box
       sx={{
-        "& .simplebar-content": {
-          display: "flex",
-          flexDirection: "column",
-        },
+        flex: 1,
+        overflowY: "auto",
       }}
     >
       <Navigation />
@@ -30,7 +27,7 @@ const DrawerContent = () => {
         drawerOpen && !matchDownMD
         // && <NavCard />
       }
-    </SimpleBar>
+    </Box>
   );
 };
 

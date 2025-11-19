@@ -254,11 +254,11 @@ const Breadcrumbs = ({
                 {itemContent}
               </MuiBreadcrumbs>
             </Grid>
-            {title && titleBottom && (
+            {/* {title && titleBottom && (
               <Grid item sx={{ mt: card === false ? 0.25 : 1 }}>
                 <Typography variant="h2">{dynamicTitle}</Typography>
               </Grid>
-            )}
+            )} */}
           </Grid>
           {card === false && divider !== false && <Divider sx={{ mt: 2 }} />}
         </MainCard>

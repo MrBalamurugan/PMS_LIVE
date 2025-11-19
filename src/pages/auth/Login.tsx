@@ -4,9 +4,9 @@ import { Link } from "react-router-dom";
 import { Grid, Stack, Typography } from "@mui/material";
 
 // project import
-import AuthLogin from "../../sections/auth/AuthLogin";
-import AuthWrapper from "../../sections/AuthWrapper";
 
+import AuthLogin from "./sections/AuthLogin";
+import AuthWrapper from "./sections/AuthWrapper";
 // ================================|| LOGIN ||================================ //
 
 const Login = () => {

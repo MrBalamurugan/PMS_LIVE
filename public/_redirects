@@ -1,1 +1,1 @@
-/api/* https://idp-staging.faciliteasy.com/:splat 200
+/api/* http://195.250.30.239:8888/login/token:splat 200

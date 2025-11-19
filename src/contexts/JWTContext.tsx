@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { createContext, useEffect, useReducer } from "react";
-import qs from "qs";
+// import qs from "qs";
 
 // third-party
 import { Chance } from "chance";
@@ -123,40 +123,41 @@ export const JWTProvider = ({ children }: any) => {
 
   const login = async (email: string, password: string) => {
     try {
-      // Allow only this specific user
-      if (email !== "brikbyte123@gmail.com" || password !== "12345678") {
-        throw new Error(
-          "Invalid credentials. Only the authorized user can log in."
-        );
+      if (email !== "admin@technova.com" || password !== "Admin@123") {
+        throw new Error("Invalid credentials.");
       }
+
       const response = await axiosServices.post(
-        "/connect/token",
-        qs.stringify({
-          username: "brikbyte123@gmail.com",
-          password: "12345678",
-          provider: "external_token",
-          client_id: "brikbyte_site",
-          client_secret: "secret",
-          grant_type: "password",
-        }),
+        "/login/token",
+        {
+          email: "admin@technova.com",
+          password: "Admin@123",
+        },
         {
           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
           },
         }
       );
-      console.log("response.data", response.data);
-      const { access_token, refresh_token } = response.data;
 
-      // ✅ Save both tokens in localStorage
-      setSession(access_token, refresh_token);
+      // console.log("response.data", response.data);
 
-      // ✅ Decode user details from JWT
-      const decoded = jwtDecode<any>(access_token);
+      // Extract tokens from correct path
+      const { accessToken, refreshToken } = response.data.data;
+
+      // Save both tokens
+      setSession(accessToken, refreshToken);
+
+      // Decode JWT
+      const decoded = jwtDecode<any>(accessToken);
+
       const user = {
-        id: decoded.sub,
+        id: decoded.UserId,
         email: decoded.email,
-        name: decoded.user_name || decoded.email,
+        name: decoded.UserName || decoded.email,
+        role: decoded.Role,
+        organization: decoded.Organization,
+        branch: decoded.Branch,
       };
 
       dispatch({
@@ -168,6 +169,42 @@ export const JWTProvider = ({ children }: any) => {
       throw error;
     }
   };
+
+  // const login = async (email: string, password: string) => {
+  //   try {
+  //     // Allow only this specific user
+  //     if (email !== "brikbyte123@gmail.com" || password !== "12345678") {
+  //       throw new Error(
+  //         "Invalid credentials. Only the authorized user can log in."
+  //       );
+  //     }
+
+  //     //  Instead, mock tokens
+  //     const mockAccessToken = "mock_access_token_123456789";
+  //     const mockRefreshToken = "mock_refresh_token_987654321";
+
+  //     //  Save both tokens in localStorage
+  //     setSession(mockAccessToken, mockRefreshToken);
+
+  //     //  Mock decoded user info
+  //     const user = {
+  //       id: "user_001",
+  //       email: "brikbyte123@gmail.com",
+  //       name: "BrikByte Admin",
+  //     };
+
+  //     //  Dispatch login success
+  //     dispatch({
+  //       type: LOGIN,
+  //       payload: { user },
+  //     });
+
+  //     console.log("Mock login successful");
+  //   } catch (error: any) {
+  //     console.error("Login failed:", error);
+  //     throw error;
+  //   }
+  // };
 
   const register = async (
     email: any,

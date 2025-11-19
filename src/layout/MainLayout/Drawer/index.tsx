@@ -42,7 +42,15 @@ const MainDrawer = ({ window }: any) => {
       aria-label="mailbox folders"
     >
       {!matchDownMD ? (
-        <MiniDrawerStyled variant="permanent" open={drawerOpen}>
+        <MiniDrawerStyled
+          variant="permanent"
+          open={drawerOpen}
+          sx={{
+            height: "100vh",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           {drawerHeader}
           {drawerContent}
         </MiniDrawerStyled>
@@ -58,6 +66,9 @@ const MainDrawer = ({ window }: any) => {
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: DRAWER_WIDTH,
+              height: "100vh",
+              display: "flex",
+              flexDirection: "column",
               borderRight: `1px solid ${theme.palette.divider}`,
               backgroundImage: "none",
               boxShadow: "inherit",

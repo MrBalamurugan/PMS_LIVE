@@ -5,8 +5,8 @@ import { Grid, Stack, Typography } from "@mui/material";
 
 // project import
 import useAuth from "../../hooks/useAuth";
-import AuthWrapper from "../../sections/AuthWrapper";
-import AuthForgotPassword from "../../sections/auth/AuthForgotPassword";
+import AuthWrapper from "./sections/AuthWrapper";
+import AuthForgotPassword from "./sections/AuthForgotPassword";
 
 // ================================|| FORGOT PASSWORD ||================================ //
 

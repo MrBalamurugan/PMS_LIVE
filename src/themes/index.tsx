@@ -8,6 +8,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 // project import
 import useConfig from "../hooks/useConfig";
 import Palette from "./palette";
+
 import Typography from "./typography";
 import CustomShadows from "./shadows";
 import ComponentsOverrides from "./overrides";

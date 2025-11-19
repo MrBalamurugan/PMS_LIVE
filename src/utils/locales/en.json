@@ -1,6 +1,14 @@
 {
+  "menu.dashboard": "Dashboard",
+  "menu.organization": "Organization",
+  "menu.userManagement": "User Management",
+  "menu.project": "Project",
+  "menu.projectHierarchy": "Project Hierarchy",
+  "menu.properties": "Properties",
+
   "sample-page": "Sample Page",
   "documentation": "Documentation",
-  "others": "Dashboard",
-  "roadmap": "Roadmap"
+  "others": "General Settings & Organization",
+  "roadmap": "Roadmap",
+  "Dashboard": "Dashboard"
 }

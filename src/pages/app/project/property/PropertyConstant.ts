@@ -1,0 +1,96 @@
+import build1 from "../../../../assets/images/e-commerce/build1.webp"
+import build2 from "../../../../assets/images/e-commerce/build2.jpg"
+import build3 from "../../../../assets/images/e-commerce/build3.jpg"
+import build4 from "../../../../assets/images/e-commerce/build4.jpg"
+import { type PropertCardProps } from "./PropertyCard";
+
+export const properties: PropertCardProps[] = [
+    {
+        id: "Luxury_Villa",
+        name: "Luxury Villa",
+        project: "Palm Residency",
+        isStock: true,
+        image: build1,
+        offer: "10% Off",
+        offerPrice: 90000000,
+        salePrice: 100000000,
+        productRating: 4.5,
+    },
+    {
+        id: "Modern_Apartment",
+        name: "Modern Apartment",
+        project: "Skyline Towers",
+        isStock: true,
+        image: build2,
+        offerPrice: 7500000,
+        productRating: 4.2,
+    },
+    {
+        id: "Beach_House",
+        name: "Beach House",
+        project: "Ocean Breeze",
+        isStock: true,
+        image: build3,
+        offerPrice: 12000000,
+        salePrice: 13500000,
+        productRating: 4.8,
+    },
+    {
+        id: "Penthouse_Suite",
+        name: "Penthouse Suite",
+        project: "Skyline Towers",
+        isStock: false,
+        image: build4,
+        offerPrice: 14250000,
+        salePrice: 15000000,
+        productRating: 4.7,
+    },
+    {
+        id: "Family_Villa",
+        name: "Family Villa",
+        project: "Green Valley",
+        isStock: true,
+        image: build1,
+        offerPrice: 8000000,
+        productRating: 4.0,
+    },
+    {
+        id: "Studio_Apartment",
+        name: "Studio Apartment",
+        project: "City Heights",
+        isStock: false,
+        image: build2,
+        offerPrice: 4500000,
+        salePrice: 5000000,
+        productRating: 3.9,
+    },
+    {
+        id: "Countryside_Cottage",
+        name: "Countryside Cottage",
+        project: "Hilltop Escape",
+        isStock: true,
+        image: build3,
+        offerPrice: 6000000,
+        salePrice: 6500000,
+        productRating: 4.3,
+    },
+    {
+        id: "Smart_Home",
+        name: "Smart Home",
+        project: "Tech Valley",
+        isStock: true,
+        image: build4,
+        offerPrice: 11000000,
+        productRating: 4.6,
+    },
+    {
+        id: "Downtown_Loft",
+        name: "Downtown Loft",
+        project: "City Lights",
+        isStock: true,
+        image: build1,
+        offerPrice: 9500000,
+        salePrice: 10000000,
+        productRating: 4.4,
+    }
+];

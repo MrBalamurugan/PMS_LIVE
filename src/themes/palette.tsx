@@ -49,7 +49,7 @@ const Palette = (mode: any, presetColor: any) => {
   }
   colors.grey = [...greyPrimary, ...greyAscent, ...greyConstant];
 
-  const paletteColor = ThemeOption(colors, presetColor, mode);
+  const paletteColor: any = ThemeOption(colors, presetColor, mode);
 
   return createTheme({
     palette: {

@@ -14,7 +14,7 @@ import {
 // project import
 import useAuth from "../../hooks/useAuth";
 import AnimateButton from "../../components/@extended/AnimateButton";
-import AuthWrapper from "../../sections/AuthWrapper";
+import AuthWrapper from "./sections/AuthWrapper";
 
 // ================================|| CHECK MAIL ||================================ //
 

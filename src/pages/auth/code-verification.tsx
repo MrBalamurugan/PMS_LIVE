@@ -2,8 +2,8 @@
 import { Grid, Stack, Typography } from "@mui/material";
 
 // project import
-import AuthWrapper from "../../sections/AuthWrapper";
-import AuthCodeVerification from "../../sections/auth/AuthCodeVerification";
+import AuthWrapper from "./sections/AuthWrapper";
+import AuthCodeVerification from "./sections/AuthCodeVerification";
 
 // ================================|| CODE VERIFICATION ||================================ //
 

@@ -7,9 +7,9 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 // project import
-import FirebaseRegister from "../../sections/auth/AuthRegister";
+import FirebaseRegister from "./sections/AuthRegister";
 
-import AuthWrapper from "../../sections/AuthWrapper";
+import AuthWrapper from "./sections/AuthWrapper";
 import useAuth from "../../hooks/useAuth";
 
 // ================================|| REGISTER ||================================ //

@@ -20,8 +20,6 @@ import "regenerator-runtime/runtime";
 // third-party
 import { format } from "date-fns";
 
-// project import
-
 // assets
 import { CloseOutlined, LineOutlined, SearchOutlined } from "@ant-design/icons";
 import IconButton from "../components/@extended/IconButton";
@@ -32,6 +30,7 @@ export function GlobalFilter({
   preGlobalFilteredRows,
   globalFilter,
   setGlobalFilter,
+  placeholder = undefined,
   ...other
 }: any) {
   const count = preGlobalFilteredRows.length;
@@ -47,7 +46,7 @@ export function GlobalFilter({
         setValue(e.target.value);
         onChange(e.target.value);
       }}
-      placeholder={`Search ${count} records...`}
+      placeholder={placeholder || `Search ${count} records...`}
       id="start-adornment-email"
       startAdornment={<SearchOutlined />}
       {...other}
@@ -67,7 +66,9 @@ export function DateColumnFilter({ column: { filterValue, setFilter } }: any) {
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <DatePicker
           value={filterValue ? new Date(filterValue) : null}
-          onChange={(newValue: Date | null) => {
+          onChange={(value) => {
+            const newValue = value as Date | null; // cast to raw Date
+
             if (newValue) {
               const formatted = format(newValue, "M/d/yyyy");
               setFilter(formatted);

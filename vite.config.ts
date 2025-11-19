@@ -14,10 +14,10 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://idp-staging.faciliteasy.com", // backend URL
+        target: "http://195.250.30.239:8888",
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/api/, ""), // remove /api prefix
+        rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },

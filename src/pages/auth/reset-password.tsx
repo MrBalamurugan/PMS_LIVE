@@ -1,7 +1,7 @@
 // material-ui
 import { Grid, Stack, Typography } from "@mui/material";
-import AuthWrapper from "../../sections/AuthWrapper";
-import AuthResetPassword from "../../sections/auth/AuthResetPassword";
+import AuthWrapper from "./sections/AuthWrapper";
+import AuthResetPassword from "./sections/AuthResetPassword";
 
 // project import
 

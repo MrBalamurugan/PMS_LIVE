@@ -18,12 +18,10 @@ import {
   Stack,
   TableCell,
   TableRow,
-  TextField,
+  // TextField,
   Tooltip,
   Typography,
 } from "@mui/material";
-
-// project-import
 
 // third-party
 import { getEmptyImage } from "react-dnd-html5-backend";
@@ -135,16 +133,16 @@ export const TablePagination = ({
               >
                 <MenuItem value={5}>5</MenuItem>
                 <MenuItem value={10}>10</MenuItem>
-                <MenuItem value={25}>25</MenuItem>
+                {/* <MenuItem value={25}>25</MenuItem>
                 <MenuItem value={50}>50</MenuItem>
-                <MenuItem value={100}>100</MenuItem>
+                <MenuItem value={100}>100</MenuItem> */}
               </Select>
             </FormControl>
           </Stack>
-          <Typography variant="caption" color="secondary">
+          {/* <Typography variant="caption" color="secondary">
             Go to
-          </Typography>
-          <TextField
+          </Typography> */}
+          {/* <TextField
             size="small"
             type="number"
             value={pageIndex + 1}
@@ -155,7 +153,7 @@ export const TablePagination = ({
             sx={{
               "& .MuiOutlinedInput-input": { py: 0.75, px: 1.25, width: 36 },
             }}
-          />
+          /> */}
         </Stack>
       </Grid>
       <Grid item sx={{ mt: { xs: 2, sm: 0 } }}>
