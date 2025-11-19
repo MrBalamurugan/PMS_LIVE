@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/api/*"
+  to = "http://195.250.30.239:8888/:splat"
+  status = 200
+  force = true
+
+# (Recommended for React Router)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
